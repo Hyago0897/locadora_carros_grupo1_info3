@@ -21,3 +21,17 @@ CREATE TABLE veiculo (
 	ano TEXT,
 	status_veiculo TEXT NOT NULL
 );
+
+CREATE TABLE contrato (
+	id_contrato INTEGER PRIMARY KEY AUTOINCREMENT,
+	id_veiculo INTEGER NOT NULL,
+	id_cliente INTEGER NOT NULL,
+	data_inicio TEXT NOT NULL,
+	data_termino TEXT NOT NULL,
+	preco_diaria REAL NOT NULL,
+	seguro TEXT NOT NULL,
+	n_diarias INTEGER NOT NULL,
+	status_contrato TEXT NOT NULL,
+	politica_combustivel TEXT NOT NULL,
+	forma_pagamento TEXT NOT NULL
+);
