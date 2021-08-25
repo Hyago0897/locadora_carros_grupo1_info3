@@ -33,7 +33,9 @@ CREATE TABLE contrato (
 	n_diarias INTEGER NOT NULL,
 	status_contrato TEXT NOT NULL,
 	politica_combustivel TEXT NOT NULL,
-	forma_pagamento TEXT NOT NULL
+	forma_pagamento TEXT NOT NULL,
+	FOREIGN key (id_veiculo) REFERENCES veiculo(id_veiculo),
+	FOREIGN key (id_cliente) REFERENCES cliente(id_cliente)
 );
 
 CREATE TABLE manutencao (
