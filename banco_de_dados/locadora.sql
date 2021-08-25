@@ -35,3 +35,10 @@ CREATE TABLE contrato (
 	politica_combustivel TEXT NOT NULL,
 	forma_pagamento TEXT NOT NULL
 );
+
+CREATE TABLE manutencao (
+	id_manutencao INTEGER PRIMARY KEY AUTOINCREMENT,
+	modelo TEXT NOT NULL,
+	custo_mm REAL NOT NULL,
+	descrisao TEXT
+);
