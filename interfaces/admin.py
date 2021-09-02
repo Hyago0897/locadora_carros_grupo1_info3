@@ -3,7 +3,11 @@ import tkinter.ttk as ttk
 
 
 class TelaPrincipalAdmin(tk.Toplevel):
-    def __init__(self, master, admin):
+    def __init__(
+        self,
+        master,
+        admin,
+    ):
         self.master = master
         self.admin = admin
 
@@ -25,7 +29,14 @@ class TelaPrincipalAdmin(tk.Toplevel):
         self.abas.add(self.painel2, text="Segundo")
         self.abas.add(self.painel3, text="Terceiro")
 
-        tk.Label(self.painel1, text="Testando aqui 1!").pack(fill="both", expand=1)
+        tk.Label(self.painel1, text="Testando aqui 1!").pack(fill="both",
+                                                             expand=1)
+        tk.Button(self.painel2, text="clique!",
+                  command=self.retbutton).pack(fill="both")
+
+    def retbutton(self):
+        print("Testando!")
+        return 3
 
 
 if __name__ == "__main__":
