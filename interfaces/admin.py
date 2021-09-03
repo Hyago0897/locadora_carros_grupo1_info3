@@ -458,6 +458,6 @@ class ManutencaoFrame(tk.Frame):
 
 if __name__ == "__main__":
     app = tk.Tk()
-    app.geometry("470x330")
+    app.geometry("470x350")
     TelaPrincipalAdmin(app)
     app.mainloop()
