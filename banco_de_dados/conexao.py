@@ -1,7 +1,7 @@
 import sqlite3
 
 
-class Banco:
+class BancoDeDados:
     def __init__(self):
         self._conexao = sqlite3.connect('locadora.db')
         self._cursor = self._conexao.cursor()
