@@ -50,7 +50,7 @@ class TelaPrincipalAdmin(tk.Frame):
         self.cliente = ClienteFrame(self.painel_cliente)
         # Contratos
         self.contrato = ContratoFrame(self.painel_contrato)
-        # Manutenções  
+        # Manutenções
         self.manutencao = ManutencaoFrame(self.painel_manutencao)
 
     def fechar(self):
@@ -87,33 +87,37 @@ class VeiculoFrame(tk.Frame):
         self.id = tk.Entry(self.container3, state="readonly")
         self.id.grid(row=0, column=1)
 
-        tk.Label(self.container3, text="NOME*:").grid(row=1, column=0)
+        tk.Label(self.container3, text="PLACA:").grid(row=1, column=0)
         self.nome = tk.Entry(self.container3)
         self.nome.grid(row=1, column=1)
 
-        tk.Label(self.container3, text="IDADE:").grid(row=2, column=0)
+        tk.Label(self.container3, text="MARCA:").grid(row=2, column=0)
         self.idade = tk.Entry(self.container3)
         self.idade.grid(row=2, column=1)
 
-        tk.Label(self.container3, text="CPF*:").grid(row=3, column=0)
+        tk.Label(self.container3, text="MODELO:").grid(row=3, column=0)
         self.cpf = tk.Entry(self.container3)
         self.cpf.grid(row=3, column=1)
 
-        tk.Label(self.container3, text="E-MAIL*:").grid(row=4, column=0)
+        tk.Label(self.container3, text="COR:").grid(row=4, column=0)
         self.email = tk.Entry(self.container3)
         self.email.grid(row=4, column=1)
 
-        tk.Label(self.container3, text="FONE:").grid(row=5, column=0)
+        tk.Label(self.container3, text="DESCRIÇÃO:").grid(row=5, column=0)
         self.fone = tk.Entry(self.container3)
         self.fone.grid(row=5, column=1)
 
-        tk.Label(self.container3, text="CIDADE:").grid(row=6, column=0)
+        tk.Label(self.container3, text="ANO:").grid(row=6, column=0)
         self.cidade = tk.Entry(self.container3)
         self.cidade.grid(row=6, column=1)
 
-        tk.Label(self.container3, text="UF:").grid(row=7, column=0)
+        tk.Label(self.container3, text="STATUS VEICULO:").grid(row=7, column=0)
         self.uf = tk.Entry(self.container3)
         self.uf.grid(row=7, column=1)
+
+        tk.Label(self.container3, text="ID MANUTENÇÃO:").grid(row=8, column=0)
+        self.uf = tk.Entry(self.container3)
+        self.uf.grid(row=8, column=1)
 
         self.container4 = tk.Frame(self.container1)
         self.container4.pack(fill='both', expand=1, padx=3, pady=3)
@@ -184,19 +188,19 @@ class ClienteFrame(tk.Frame):
         self.id = tk.Entry(self.container3, state="readonly")
         self.id.grid(row=0, column=1)
 
-        tk.Label(self.container3, text="NOME*:").grid(row=1, column=0)
+        tk.Label(self.container3, text="NOME:").grid(row=1, column=0)
         self.nome = tk.Entry(self.container3)
         self.nome.grid(row=1, column=1)
 
-        tk.Label(self.container3, text="IDADE:").grid(row=2, column=0)
+        tk.Label(self.container3, text="ENDEREÇO:").grid(row=2, column=0)
         self.idade = tk.Entry(self.container3)
         self.idade.grid(row=2, column=1)
 
-        tk.Label(self.container3, text="CPF*:").grid(row=3, column=0)
+        tk.Label(self.container3, text="CPF:").grid(row=3, column=0)
         self.cpf = tk.Entry(self.container3)
         self.cpf.grid(row=3, column=1)
 
-        tk.Label(self.container3, text="E-MAIL*:").grid(row=4, column=0)
+        tk.Label(self.container3, text="E-MAIL:").grid(row=4, column=0)
         self.email = tk.Entry(self.container3)
         self.email.grid(row=4, column=1)
 
@@ -204,13 +208,21 @@ class ClienteFrame(tk.Frame):
         self.fone = tk.Entry(self.container3)
         self.fone.grid(row=5, column=1)
 
-        tk.Label(self.container3, text="CIDADE:").grid(row=6, column=0)
+        tk.Label(self.container3, text="LOGIN:").grid(row=6, column=0)
         self.cidade = tk.Entry(self.container3)
         self.cidade.grid(row=6, column=1)
 
-        tk.Label(self.container3, text="UF:").grid(row=7, column=0)
+        tk.Label(self.container3, text="SENHA:").grid(row=7, column=0)
         self.uf = tk.Entry(self.container3)
         self.uf.grid(row=7, column=1)
+
+        tk.Label(self.container3, text="CNH:").grid(row=8, column=0)
+        self.cidade = tk.Entry(self.container3)
+        self.cidade.grid(row=8, column=1)
+
+        tk.Label(self.container3, text="NASCIMENTO:").grid(row=9, column=0)
+        self.uf = tk.Entry(self.container3)
+        self.uf.grid(row=9, column=1)
 
         self.container4 = tk.Frame(self.container1)
         self.container4.pack(fill='both', expand=1, padx=3, pady=3)
@@ -277,37 +289,45 @@ class ContratoFrame(tk.Frame):
         self.container3 = tk.Frame(self.container1)
         self.container3.pack(fill='both', expand=1, padx=3, pady=3)
 
-        tk.Label(self.container3, text="ID:").grid(row=0, column=0)
+        tk.Label(self.container3, text="ID CONTRATO:").grid(row=0, column=0)
         self.id = tk.Entry(self.container3, state="readonly")
         self.id.grid(row=0, column=1)
 
-        tk.Label(self.container3, text="NOME*:").grid(row=1, column=0)
+        tk.Label(self.container3, text="ID VEICULO:").grid(row=1, column=0)
         self.nome = tk.Entry(self.container3)
         self.nome.grid(row=1, column=1)
 
-        tk.Label(self.container3, text="IDADE:").grid(row=2, column=0)
+        tk.Label(self.container3, text="ID CLIENTE:").grid(row=2, column=0)
         self.idade = tk.Entry(self.container3)
         self.idade.grid(row=2, column=1)
 
-        tk.Label(self.container3, text="CPF*:").grid(row=3, column=0)
+        tk.Label(self.container3, text="DATA INICIAL:").grid(row=3, column=0)
         self.cpf = tk.Entry(self.container3)
         self.cpf.grid(row=3, column=1)
 
-        tk.Label(self.container3, text="E-MAIL*:").grid(row=4, column=0)
+        tk.Label(self.container3, text="DATA FINAL:").grid(row=4, column=0)
         self.email = tk.Entry(self.container3)
         self.email.grid(row=4, column=1)
 
-        tk.Label(self.container3, text="FONE:").grid(row=5, column=0)
+        tk.Label(self.container3, text="PREÇO DIÁRIA:").grid(row=5, column=0)
         self.fone = tk.Entry(self.container3)
         self.fone.grid(row=5, column=1)
 
-        tk.Label(self.container3, text="CIDADE:").grid(row=6, column=0)
+        tk.Label(self.container3, text="N° DIÁRIA:").grid(row=6, column=0)
         self.cidade = tk.Entry(self.container3)
         self.cidade.grid(row=6, column=1)
 
-        tk.Label(self.container3, text="UF:").grid(row=7, column=0)
+        tk.Label(self.container3, text="STATUS:").grid(row=7, column=0)
         self.uf = tk.Entry(self.container3)
         self.uf.grid(row=7, column=1)
+
+        tk.Label(self.container3, text="COMBUSTÍVEL:").grid(row=8, column=0)
+        self.comb = tk.Entry(self.container3)
+        self.comb.grid(row=8, column=1)
+
+        tk.Label(self.container3, text="PAGAMENTO:").grid(row=9, column=0)
+        self.comb = tk.Entry(self.container3)
+        self.comb.grid(row=9, column=1)
 
         self.container4 = tk.Frame(self.container1)
         self.container4.pack(fill='both', expand=1, padx=3, pady=3)
@@ -374,37 +394,21 @@ class ManutencaoFrame(tk.Frame):
         self.container3 = tk.Frame(self.container1)
         self.container3.pack(fill='both', expand=1, padx=3, pady=3)
 
-        tk.Label(self.container3, text="ID:").grid(row=0, column=0)
+        tk.Label(self.container3, text="ID :").grid(row=0, column=0)
         self.id = tk.Entry(self.container3, state="readonly")
         self.id.grid(row=0, column=1)
 
-        tk.Label(self.container3, text="NOME*:").grid(row=1, column=0)
+        tk.Label(self.container3, text="MODELO:").grid(row=1, column=0)
         self.nome = tk.Entry(self.container3)
         self.nome.grid(row=1, column=1)
 
-        tk.Label(self.container3, text="IDADE:").grid(row=2, column=0)
+        tk.Label(self.container3, text="CUSTO:").grid(row=2, column=0)
         self.idade = tk.Entry(self.container3)
         self.idade.grid(row=2, column=1)
 
-        tk.Label(self.container3, text="CPF*:").grid(row=3, column=0)
+        tk.Label(self.container3, text="DESCRIÇÃO:").grid(row=3, column=0)
         self.cpf = tk.Entry(self.container3)
         self.cpf.grid(row=3, column=1)
-
-        tk.Label(self.container3, text="E-MAIL*:").grid(row=4, column=0)
-        self.email = tk.Entry(self.container3)
-        self.email.grid(row=4, column=1)
-
-        tk.Label(self.container3, text="FONE:").grid(row=5, column=0)
-        self.fone = tk.Entry(self.container3)
-        self.fone.grid(row=5, column=1)
-
-        tk.Label(self.container3, text="CIDADE:").grid(row=6, column=0)
-        self.cidade = tk.Entry(self.container3)
-        self.cidade.grid(row=6, column=1)
-
-        tk.Label(self.container3, text="UF:").grid(row=7, column=0)
-        self.uf = tk.Entry(self.container3)
-        self.uf.grid(row=7, column=1)
 
         self.container4 = tk.Frame(self.container1)
         self.container4.pack(fill='both', expand=1, padx=3, pady=3)
