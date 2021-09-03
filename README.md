@@ -16,4 +16,4 @@ Após a modelagem ser concluída e aprovada pelo grupo. Cada grupo se dividirá 
 	• uma para desenvolvimento front-end (utilizando a biblioteca Tkinter)
 	• outra para desenvolvimento back-end.
 	• modelagem do banco de dados e integração do front-end com o back-end
-Data da entrega do programa: 2/9/2021
+Data da entrega do programa: 9/9/2021
