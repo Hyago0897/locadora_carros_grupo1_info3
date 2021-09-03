@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS manutencao (
 	id_manutencao INTEGER PRIMARY KEY AUTOINCREMENT,
 	modelo TEXT NOT NULL,
 	custo_mm REAL NOT NULL,
-	descrisao TEXT
+	descricao TEXT
 );
 
 CREATE TABLE IF NOT EXISTS veiculo (
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS veiculo (
 	marca TEXT NOT NULL,
 	modelo TEXT NOT NULL,
 	cor TEXT,
-	descrisao TEXT,
+	descricao TEXT,
 	ano TEXT,
 	status_veiculo TEXT NOT NULL,
 	id_manutencao INTEGER NOT NULL,
@@ -45,4 +45,10 @@ CREATE TABLE IF NOT EXISTS contrato (
 	forma_pagamento TEXT NOT NULL,
 	FOREIGN key (id_veiculo) REFERENCES veiculo(id_veiculo),
 	FOREIGN key (id_cliente) REFERENCES cliente(id_cliente)
+);
+
+CREATE TABLE IF NOT EXISTS admin (
+	login TEXT PRIMARY KEY,
+	senha TEXT NOT NULL,
+	nome TEXT NOT NULL
 );
