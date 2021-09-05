@@ -11,27 +11,27 @@ CREATE TABLE IF NOT EXISTS cliente (
 	`n_CNH` TEXT NOT NULL
 );
 
-CREATE TABLE manutencao (
+CREATE TABLE IF NOT EXISTS manutencao (
 	id_manutencao INTEGER PRIMARY KEY AUTOINCREMENT,
 	modelo TEXT NOT NULL,
 	custo_mm REAL NOT NULL,
-	descrisao TEXT
+	descricao TEXT
 );
 
-CREATE TABLE veiculo (
+CREATE TABLE IF NOT EXISTS veiculo (
 	id_veiculo INTEGER PRIMARY KEY AUTOINCREMENT,
 	placa TEXT(7) NOT NULL,
 	marca TEXT NOT NULL,
 	modelo TEXT NOT NULL,
 	cor TEXT,
-	descrisao TEXT,
+	descricao TEXT,
 	ano TEXT,
 	status_veiculo TEXT NOT NULL,
 	id_manutencao INTEGER NOT NULL,
 	FOREIGN key (id_manutencao) REFERENCES manutencao(id_manutencao)
 );
 
-CREATE TABLE contrato (
+CREATE TABLE IF NOT EXISTS contrato (
 	id_contrato INTEGER PRIMARY KEY AUTOINCREMENT,
 	id_veiculo INTEGER NOT NULL,
 	id_cliente INTEGER NOT NULL,
@@ -45,4 +45,10 @@ CREATE TABLE contrato (
 	forma_pagamento TEXT NOT NULL,
 	FOREIGN key (id_veiculo) REFERENCES veiculo(id_veiculo),
 	FOREIGN key (id_cliente) REFERENCES cliente(id_cliente)
+);
+
+CREATE TABLE IF NOT EXISTS admin (
+	login TEXT PRIMARY KEY,
+	senha TEXT NOT NULL,
+	nome TEXT NOT NULL
 );
