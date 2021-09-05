@@ -25,6 +25,15 @@ class TelaLogin(tk.Frame):
         tk.Label(self.container2, text="Senha:").grid(column=0, row=1)
         self.senha = tk.Entry(self.container2)
         self.senha.grid(column=1, row=1)
+
+        self.checkVar = tk.BooleanVar()
+
+        tk.Checkbutton(self.container2,
+                       text="Administrador",
+                       variable=self.checkVar).grid(column=0,
+                                                    row=2,
+                                                    columnspan=2)
+
         self.btnLimpar = tk.Button(self.container1,
                                    text="LIMPAR",
                                    command=self.limpar_campos)
@@ -33,8 +42,8 @@ class TelaLogin(tk.Frame):
                                   text="LOGIN",
                                   command=self.verificar_dados)
         self.btnLogin.pack(side='left', fill='x', expand=1, padx=3)
+
         self.nome.focus()
-        self.master.mainloop()
 
     def limpar_campos(self):
         self.nome.delete(0, tk.END)
