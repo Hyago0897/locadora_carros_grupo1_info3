@@ -30,26 +30,31 @@ class TelaPrincipalCliente(tk.Frame):
         self.abas.add(self.painel_contrato, text="NOVO CONTRATO")
         self.abas.add(self.painel_pagar, text="PAGAR CONTRATO")
 
-        tk.Label(
-            self.container1, text="Usuário: Fulano da Silva",
-            font="Verdana").pack(side="left", fill="both", padx=3, pady=3)
+        tk.Label(self.container1,
+                 text="Usuário: Fulano da Silva",
+                 font="Verdana").pack(side="left", fill="both", padx=3, pady=3)
 
-        tk.Button(self.container1, text="Logout", command=self.fechar).pack(
-            side="right", fill="both", padx=3, pady=3)
+        tk.Button(self.container1, text="Logout",
+                  command=self.fechar).pack(side="right",
+                                            fill="both",
+                                            padx=3,
+                                            pady=3)
 
         # Contratos
 
-        self.containerC1 = tk.Frame(self.painel_contrato,
-                                    bd=5)
+        self.containerC1 = tk.Frame(self.painel_contrato, bd=5)
 
-        self.containerC2 = tk.Frame(self.painel_pagar,
-                                    bd=5)
-        self.containerC1.pack(
-            fill='both', side="left",
-            expand=1, padx=3, pady=3)
-        self.containerC2.pack(
-            fill='both', side="left",
-            expand=1, padx=3, pady=3)
+        self.containerC2 = tk.Frame(self.painel_pagar, bd=5)
+        self.containerC1.pack(fill='both',
+                              side="left",
+                              expand=1,
+                              padx=3,
+                              pady=3)
+        self.containerC2.pack(fill='both',
+                              side="left",
+                              expand=1,
+                              padx=3,
+                              pady=3)
 
         # INSERÇÃO
         self.container3 = tk.Frame(self.containerC1)
@@ -59,7 +64,9 @@ class TelaPrincipalCliente(tk.Frame):
         self.veiculo = ttk.Combobox(self.container3)
         self.veiculo.grid(row=0, column=1)
 
-        tk.Label(self.container3, text="PERÍODO:").grid(rowspan=2, row=1, column=0)
+        tk.Label(self.container3, text="PERÍODO:").grid(rowspan=2,
+                                                        row=1,
+                                                        column=0)
         self.containerPeriodo = tk.Frame(self.container3)
         self.containerPeriodo.grid(row=1, column=1)
         self.inicio = tk.Entry(self.containerPeriodo, width=10)
@@ -76,10 +83,7 @@ class TelaPrincipalCliente(tk.Frame):
 
         self.container4 = tk.Frame(self.containerC1)
         self.container4.pack(fill='both', expand=1, padx=3, pady=3)
-        self.btn_inserir = tk.Button(
-            self.container4,
-            text="CRIAR CONTRATO"
-        )
+        self.btn_inserir = tk.Button(self.container4, text="CRIAR CONTRATO")
         self.btn_inserir.pack(side="left", expand=1, fill="both")
 
         # VISUALIZAR REGISTROS
@@ -88,13 +92,11 @@ class TelaPrincipalCliente(tk.Frame):
 
         barraV = tk.Scrollbar(self.container5, orient="vertical")
         barraH = tk.Scrollbar(self.container5, orient="horizontal")
-        self.lista_clientes = tk.Listbox(
-            self.container5,
-            width=20,
-            yscrollcommand=barraV.set,
-            xscrollcommand=barraH.set,
-            selectmode="SINGLE"
-        )
+        self.lista_clientes = tk.Listbox(self.container5,
+                                         width=20,
+                                         yscrollcommand=barraV.set,
+                                         xscrollcommand=barraH.set,
+                                         selectmode="SINGLE")
         barraV.config(command=self.lista_clientes.yview)
         barraV.pack(side="right", fill='y')
 
@@ -105,10 +107,8 @@ class TelaPrincipalCliente(tk.Frame):
         barraH.pack(side="bottom", fill='x')
 
         self.lista_clientes.pack(fill='x')
-        tk.Button(
-            self.container6,
-            text="PAGAR CONTRATO"
-        ).pack(expand=1, fill="both")
+        tk.Button(self.container6, text="PAGAR CONTRATO").pack(expand=1,
+                                                               fill="both")
 
     def fechar(self):
         self.master.destroy()

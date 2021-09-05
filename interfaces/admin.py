@@ -37,12 +37,15 @@ class TelaPrincipalAdmin(tk.Frame):
         self.abas.add(self.painel_contrato, text="CONTRATOS")
         self.abas.add(self.painel_manutencao, text="MANUTENÇÕES")
 
-        tk.Label(
-            self.container1, text="Admin: Fulano da Silva",
-            font="Verdana").pack(side="left", fill="both", padx=3, pady=3)
+        tk.Label(self.container1,
+                 text="Admin: Fulano da Silva",
+                 font="Verdana").pack(side="left", fill="both", padx=3, pady=3)
 
-        tk.Button(self.container1, text="Logout", command=self.fechar).pack(
-            side="right", fill="both", padx=3, pady=3)
+        tk.Button(self.container1, text="Logout",
+                  command=self.fechar).pack(side="right",
+                                            fill="both",
+                                            padx=3,
+                                            pady=3)
 
         # Veiculos
         self.veiculo = VeiculoFrame(self.painel_veiculo)
@@ -67,21 +70,23 @@ class TelaPrincipalAdmin(tk.Frame):
 class VeiculoFrame(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
-        self.container1 = tk.Frame(self.master,
-                                   bd=5)
+        self.container1 = tk.Frame(self.master, bd=5)
 
-        self.container2 = tk.Frame(self.master,
-                                   bd=5)
-        self.container1.pack(
-            fill='both', side="left",
-            expand=1, padx=3, pady=3)
-        self.container2.pack(
-            fill='both', side="left",
-            expand=1, padx=3, pady=3)
+        self.container2 = tk.Frame(self.master, bd=5)
+        self.container1.pack(fill='both',
+                             side="left",
+                             expand=1,
+                             padx=3,
+                             pady=3)
+        self.container2.pack(fill='both',
+                             side="left",
+                             expand=1,
+                             padx=3,
+                             pady=3)
 
         # INSERÇÃO E PESQUISA
         self.container3 = tk.Frame(self.container1)
-        self.container3.pack(fill='both', expand=1, padx=3, pady=3)
+        self.container3.pack(fill='x', expand=1, padx=3, pady=3)
 
         tk.Label(self.container3, text="ID:").grid(row=0, column=0)
         self.id = tk.Entry(self.container3, state="readonly")
@@ -111,7 +116,7 @@ class VeiculoFrame(tk.Frame):
         self.cidade = tk.Entry(self.container3)
         self.cidade.grid(row=6, column=1)
 
-        tk.Label(self.container3, text="STATUS VEICULO:").grid(row=7, column=0)
+        tk.Label(self.container3, text="STATUS:").grid(row=7, column=0)
         self.uf = tk.Entry(self.container3)
         self.uf.grid(row=7, column=1)
 
@@ -120,17 +125,14 @@ class VeiculoFrame(tk.Frame):
         self.uf.grid(row=8, column=1)
 
         self.container4 = tk.Frame(self.container1)
-        self.container4.pack(fill='both', expand=1, padx=3, pady=3)
-        self.btn_inserir = tk.Button(
-            self.container4,
-            text="INSERIR"
-        )
-        self.btn_inserir.pack(side="left", expand=1, fill="both")
+        self.container4.pack(fill='x', expand=1, padx=3, pady=3)
+        self.btn_inserir = tk.Button(self.container4, text="INSERIR", height=2)
+        self.btn_inserir.pack(side="left", expand=1, fill="x")
 
         self.btn_pesquisar = tk.Button(self.container4,
-                                       text="PESQUISAR"
-                                       )
-        self.btn_pesquisar.pack(side="left", expand=1, fill="both")
+                                       text="PESQUISAR",
+                                       height=2)
+        self.btn_pesquisar.pack(side="left", expand=1, fill="x")
 
         # VISUALIZAR REGISTROS
         self.container5 = tk.Frame(self.container2)
@@ -138,47 +140,49 @@ class VeiculoFrame(tk.Frame):
 
         barraV = tk.Scrollbar(self.container5, orient="vertical")
         barraH = tk.Scrollbar(self.container5, orient="horizontal")
-        self.lista_clientes = tk.Listbox(
-            self.container5,
-            width=20,
-            yscrollcommand=barraV.set,
-            xscrollcommand=barraH.set,
-            selectmode="SINGLE"
-        )
+        self.lista_clientes = tk.Listbox(self.container5,
+                                         width=30,
+                                         yscrollcommand=barraV.set,
+                                         xscrollcommand=barraH.set,
+                                         selectmode="SINGLE")
         barraV.config(command=self.lista_clientes.yview)
-        barraV.pack(side="right", fill='y')
+        barraV.pack(side="right", fill='both')
 
         self.container6 = tk.Frame(self.container2)
         self.container6.pack(side="bottom", fill='both', expand=1)
 
         barraH.config(command=self.lista_clientes.xview)
-        barraH.pack(side="bottom", fill='x')
+        barraH.pack(side="bottom", fill='both')
 
-        self.lista_clientes.pack(fill='x')
+        self.lista_clientes.pack(fill='both', expand=1)
         tk.Button(
             self.container6,
-            text="DELETAR"
-        ).pack(side="left", expand=1, fill="both")
+            text="DELETAR",
+            height=2,
+        ).pack(side="left", expand=1, fill="x")
         tk.Button(
             self.container6,
-            text="EDITAR"
-        ).pack(side="left", expand=1, fill="both")
+            text="EDITAR",
+            height=2,
+        ).pack(side="left", expand=1, fill="x")
 
 
 class ClienteFrame(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
-        self.container1 = tk.Frame(self.master,
-                                   bd=5)
+        self.container1 = tk.Frame(self.master, bd=5)
 
-        self.container2 = tk.Frame(self.master,
-                                   bd=5)
-        self.container1.pack(
-            fill='both', side="left",
-            expand=1, padx=3, pady=3)
-        self.container2.pack(
-            fill='both', side="left",
-            expand=1, padx=3, pady=3)
+        self.container2 = tk.Frame(self.master, bd=5)
+        self.container1.pack(fill='both',
+                             side="left",
+                             expand=1,
+                             padx=3,
+                             pady=3)
+        self.container2.pack(fill='both',
+                             side="left",
+                             expand=1,
+                             padx=3,
+                             pady=3)
 
         # INSERÇÃO E PESQUISA
         self.container3 = tk.Frame(self.container1)
@@ -226,15 +230,10 @@ class ClienteFrame(tk.Frame):
 
         self.container4 = tk.Frame(self.container1)
         self.container4.pack(fill='both', expand=1, padx=3, pady=3)
-        self.btn_inserir = tk.Button(
-            self.container4,
-            text="INSERIR"
-        )
+        self.btn_inserir = tk.Button(self.container4, text="INSERIR")
         self.btn_inserir.pack(side="left", expand=1, fill="both")
 
-        self.btn_pesquisar = tk.Button(self.container4,
-                                       text="PESQUISAR"
-                                       )
+        self.btn_pesquisar = tk.Button(self.container4, text="PESQUISAR")
         self.btn_pesquisar.pack(side="left", expand=1, fill="both")
 
         # VISUALIZAR REGISTROS
@@ -243,13 +242,11 @@ class ClienteFrame(tk.Frame):
 
         barraV = tk.Scrollbar(self.container5, orient="vertical")
         barraH = tk.Scrollbar(self.container5, orient="horizontal")
-        self.lista_clientes = tk.Listbox(
-            self.container5,
-            width=20,
-            yscrollcommand=barraV.set,
-            xscrollcommand=barraH.set,
-            selectmode="SINGLE"
-        )
+        self.lista_clientes = tk.Listbox(self.container5,
+                                         width=20,
+                                         yscrollcommand=barraV.set,
+                                         xscrollcommand=barraH.set,
+                                         selectmode="SINGLE")
         barraV.config(command=self.lista_clientes.yview)
         barraV.pack(side="right", fill='y')
 
@@ -260,30 +257,30 @@ class ClienteFrame(tk.Frame):
         barraH.pack(side="bottom", fill='x')
 
         self.lista_clientes.pack(fill='x')
-        tk.Button(
-            self.container6,
-            text="DELETAR"
-        ).pack(side="left", expand=1, fill="both")
-        tk.Button(
-            self.container6,
-            text="EDITAR"
-        ).pack(side="left", expand=1, fill="both")
+        tk.Button(self.container6, text="DELETAR").pack(side="left",
+                                                        expand=1,
+                                                        fill="both")
+        tk.Button(self.container6, text="EDITAR").pack(side="left",
+                                                       expand=1,
+                                                       fill="both")
 
 
 class ContratoFrame(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
-        self.container1 = tk.Frame(self.master,
-                                   bd=5)
+        self.container1 = tk.Frame(self.master, bd=5)
 
-        self.container2 = tk.Frame(self.master,
-                                   bd=5)
-        self.container1.pack(
-            fill='both', side="left",
-            expand=1, padx=3, pady=3)
-        self.container2.pack(
-            fill='both', side="left",
-            expand=1, padx=3, pady=3)
+        self.container2 = tk.Frame(self.master, bd=5)
+        self.container1.pack(fill='both',
+                             side="left",
+                             expand=1,
+                             padx=3,
+                             pady=3)
+        self.container2.pack(fill='both',
+                             side="left",
+                             expand=1,
+                             padx=3,
+                             pady=3)
 
         # INSERÇÃO E PESQUISA
         self.container3 = tk.Frame(self.container1)
@@ -331,15 +328,10 @@ class ContratoFrame(tk.Frame):
 
         self.container4 = tk.Frame(self.container1)
         self.container4.pack(fill='both', expand=1, padx=3, pady=3)
-        self.btn_inserir = tk.Button(
-            self.container4,
-            text="INSERIR"
-        )
+        self.btn_inserir = tk.Button(self.container4, text="INSERIR")
         self.btn_inserir.pack(side="left", expand=1, fill="both")
 
-        self.btn_pesquisar = tk.Button(self.container4,
-                                       text="PESQUISAR"
-                                       )
+        self.btn_pesquisar = tk.Button(self.container4, text="PESQUISAR")
         self.btn_pesquisar.pack(side="left", expand=1, fill="both")
 
         # VISUALIZAR REGISTROS
@@ -348,13 +340,11 @@ class ContratoFrame(tk.Frame):
 
         barraV = tk.Scrollbar(self.container5, orient="vertical")
         barraH = tk.Scrollbar(self.container5, orient="horizontal")
-        self.lista_clientes = tk.Listbox(
-            self.container5,
-            width=20,
-            yscrollcommand=barraV.set,
-            xscrollcommand=barraH.set,
-            selectmode="SINGLE"
-        )
+        self.lista_clientes = tk.Listbox(self.container5,
+                                         width=20,
+                                         yscrollcommand=barraV.set,
+                                         xscrollcommand=barraH.set,
+                                         selectmode="SINGLE")
         barraV.config(command=self.lista_clientes.yview)
         barraV.pack(side="right", fill='y')
 
@@ -365,30 +355,30 @@ class ContratoFrame(tk.Frame):
         barraH.pack(side="bottom", fill='x')
 
         self.lista_clientes.pack(fill='x')
-        tk.Button(
-            self.container6,
-            text="DELETAR"
-        ).pack(side="left", expand=1, fill="both")
-        tk.Button(
-            self.container6,
-            text="EDITAR"
-        ).pack(side="left", expand=1, fill="both")
+        tk.Button(self.container6, text="DELETAR").pack(side="left",
+                                                        expand=1,
+                                                        fill="both")
+        tk.Button(self.container6, text="EDITAR").pack(side="left",
+                                                       expand=1,
+                                                       fill="both")
 
 
 class ManutencaoFrame(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
-        self.container1 = tk.Frame(self.master,
-                                   bd=5)
+        self.container1 = tk.Frame(self.master, bd=5)
 
-        self.container2 = tk.Frame(self.master,
-                                   bd=5)
-        self.container1.pack(
-            fill='both', side="left",
-            expand=1, padx=3, pady=3)
-        self.container2.pack(
-            fill='both', side="left",
-            expand=1, padx=3, pady=3)
+        self.container2 = tk.Frame(self.master, bd=5)
+        self.container1.pack(fill='both',
+                             side="left",
+                             expand=1,
+                             padx=3,
+                             pady=3)
+        self.container2.pack(fill='both',
+                             side="left",
+                             expand=1,
+                             padx=3,
+                             pady=3)
 
         # INSERÇÃO E PESQUISA
         self.container3 = tk.Frame(self.container1)
@@ -412,15 +402,10 @@ class ManutencaoFrame(tk.Frame):
 
         self.container4 = tk.Frame(self.container1)
         self.container4.pack(fill='both', expand=1, padx=3, pady=3)
-        self.btn_inserir = tk.Button(
-            self.container4,
-            text="INSERIR"
-        )
+        self.btn_inserir = tk.Button(self.container4, text="INSERIR")
         self.btn_inserir.pack(side="left", expand=1, fill="both")
 
-        self.btn_pesquisar = tk.Button(self.container4,
-                                       text="PESQUISAR"
-                                       )
+        self.btn_pesquisar = tk.Button(self.container4, text="PESQUISAR")
         self.btn_pesquisar.pack(side="left", expand=1, fill="both")
 
         # VISUALIZAR REGISTROS
@@ -429,31 +414,24 @@ class ManutencaoFrame(tk.Frame):
 
         barraV = tk.Scrollbar(self.container5, orient="vertical")
         barraH = tk.Scrollbar(self.container5, orient="horizontal")
-        self.lista_clientes = tk.Listbox(
-            self.container5,
-            width=20,
-            yscrollcommand=barraV.set,
-            xscrollcommand=barraH.set,
-            selectmode="SINGLE"
-        )
+        self.lista_clientes = tk.Listbox(self.container5,
+                                         yscrollcommand=barraV.set,
+                                         xscrollcommand=barraH.set,
+                                         selectmode="SINGLE")
         barraV.config(command=self.lista_clientes.yview)
-        barraV.pack(side="right", fill='y')
+        barraV.pack(side="right", fill='both')
 
         self.container6 = tk.Frame(self.container2)
         self.container6.pack(side="bottom", fill='both', expand=1)
 
         barraH.config(command=self.lista_clientes.xview)
-        barraH.pack(side="bottom", fill='x')
+        barraH.pack(side="bottom", fill='both')
 
-        self.lista_clientes.pack(fill='x')
-        tk.Button(
-            self.container6,
-            text="DELETAR"
-        ).pack(side="left", expand=1, fill="both")
-        tk.Button(
-            self.container6,
-            text="EDITAR"
-        ).pack(side="left", expand=1, fill="both")
+        self.lista_clientes.pack(fill='both', expand=1)
+        tk.Button(self.container6, text="DELETAR", padx=5,
+                  pady=10).pack(side="left", expand=1, fill="x")
+        tk.Button(self.container6, text="EDITAR", padx=5,
+                  pady=10).pack(side="left", expand=1, fill="x")
 
 
 if __name__ == "__main__":
