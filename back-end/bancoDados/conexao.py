@@ -3,17 +3,20 @@ import re
 
 
 class BancoDeDados:
-    def __init__(self):
-        self._conexao = sqlite3.connect('locadora.db')
-
     def __enter__(self):
+        self._conexao = sqlite3.connect('locadora.db')
         self._cursor = self._conexao.cursor()
+        return self
 
     @property
     def cursor(self):
         return self._cursor
 
     def exe_sql_file(self, filename):
+        ###
+        # Direitos para
+        # nobeing -- no site -> ti-enxame.com
+        ###
         command = ""
         for line in open(filename):
             if re.match(r'--', line):
@@ -29,8 +32,6 @@ class BancoDeDados:
                     print("\n[WARN] MySQLError during execute statement \n\tArgs: '%s'" % (str(e.args)))
 
                 command = ""
-        
-        print('terminou sem erro')
 
 
     def sql(self, comando, valores=None):
@@ -40,8 +41,3 @@ class BancoDeDados:
     def __exit__(self, exc_type, exc_value, exc_tb):
         self._conexao.commit()
         self._conexao.close()
-
-a = BancoDeDados()
-
-with a:
-    a.exe_sql_file('C:/Users/CLAUDIANE/locadora1.sql')
