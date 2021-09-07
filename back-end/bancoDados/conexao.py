@@ -1,5 +1,5 @@
-import sqlite3
 import re
+import sqlite3
 
 
 class BancoDeDados:
@@ -28,11 +28,15 @@ class BancoDeDados:
                 command += line
                 try:
                     self._cursor.execute(command)
-                except (sqlite3.OperationalError, sqlite3.ProgrammingError) as e:
-                    print("\n[WARN] MySQLError during execute statement \n\tArgs: '%s'" % (str(e.args)))
+                except (sqlite3.OperationalError,
+                        sqlite3.ProgrammingError) as e:
+                    print(
+                        "\n[WARN] MySQLError during execute statement \n\tArgs: '%s'"
+                        % (str(e.args)))
 
                 command = ""
 
+        print('terminou sem erro')
 
     def sql(self, comando, valores=None):
         if valores == None:

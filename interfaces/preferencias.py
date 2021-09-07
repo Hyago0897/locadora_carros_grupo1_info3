@@ -21,8 +21,8 @@ class TelaPreferencias(tk.Frame):
         self.check_backup = tk.Checkbutton(self.container2,
                                            text="Fazer backup",
                                            variable=self.checkVar,
-                                           command=self.habilita_backup).grid(
-                                               column=0, row=0, sticky="w")
+                                           command=self.habilita_backup)
+        self.check_backup.grid(column=0, row=0, sticky="w")
 
         self.lbdir = tk.Label(self.container2, text="Diretórios para backup")
         self.lbdir.grid(column=0, row=1, padx=(20, 0), sticky="w")
