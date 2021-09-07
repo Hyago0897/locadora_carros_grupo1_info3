@@ -39,7 +39,10 @@ class TelaPrincipalAdmin(tk.Frame):
 
         tk.Label(self.container1,
                  text="Admin: Fulano da Silva",
-                 font="Verdana").pack(side="left", fill="both", padx=3, pady=3)
+                 font="Default 10").pack(side="left",
+                                         fill="both",
+                                         padx=3,
+                                         pady=3)
 
         tk.Button(self.container1, text="Logout",
                   command=self.fechar).pack(side="right",
@@ -382,31 +385,49 @@ class ManutencaoFrame(tk.Frame):
 
         # INSERÇÃO E PESQUISA
         self.container3 = tk.Frame(self.container1)
-        self.container3.pack(fill='both', expand=1, padx=3, pady=3)
+        self.container3.pack(expand=1, padx=3, pady=3)
 
-        tk.Label(self.container3, text="ID :").grid(row=0, column=0)
-        self.id = tk.Entry(self.container3, state="readonly")
-        self.id.grid(row=0, column=1)
-
-        tk.Label(self.container3, text="MODELO:").grid(row=1, column=0)
-        self.nome = tk.Entry(self.container3)
+        tk.Label(self.container3, text="MODELO:").grid(row=1,
+                                                       column=0,
+                                                       sticky="w",
+                                                       padx=3,
+                                                       pady=3)
+        self.nome = tk.Entry(self.container3, width=19)
         self.nome.grid(row=1, column=1)
 
-        tk.Label(self.container3, text="CUSTO:").grid(row=2, column=0)
-        self.idade = tk.Entry(self.container3)
-        self.idade.grid(row=2, column=1)
+        tk.Label(self.container3, text="CUSTO:").grid(row=2,
+                                                      column=0,
+                                                      sticky="w",
+                                                      padx=3,
+                                                      pady=3)
+        self.idade = tk.DoubleVar()
+        self.entryIdade = tk.Entry(self.container3,
+                                   width=19,
+                                   textvariable=self.idade)
 
-        tk.Label(self.container3, text="DESCRIÇÃO:").grid(row=3, column=0)
-        self.cpf = tk.Entry(self.container3)
-        self.cpf.grid(row=3, column=1)
+        self.entryIdade.grid(row=2, column=1)
+
+        tk.Label(self.container3, text="DESCRIÇÃO:").grid(row=3,
+                                                          column=0,
+                                                          sticky="w",
+                                                          padx=3,
+                                                          pady=3)
+        self.cpf = tk.Text(self.container3, width=29, height=7)
+        self.cpf.grid(row=4, column=0, columnspan=2)
 
         self.container4 = tk.Frame(self.container1)
         self.container4.pack(fill='both', expand=1, padx=3, pady=3)
-        self.btn_inserir = tk.Button(self.container4, text="INSERIR")
-        self.btn_inserir.pack(side="left", expand=1, fill="both")
+        self.btn_inserir = tk.Button(self.container4,
+                                     text="INSERIR",
+                                     padx=10,
+                                     pady=10)
+        self.btn_inserir.pack(side="left", expand=1, fill="x")
 
-        self.btn_pesquisar = tk.Button(self.container4, text="PESQUISAR")
-        self.btn_pesquisar.pack(side="left", expand=1, fill="both")
+        self.btn_pesquisar = tk.Button(self.container4,
+                                       text="PESQUISAR",
+                                       padx=10,
+                                       pady=10)
+        self.btn_pesquisar.pack(side="left", expand=1, fill="x")
 
         # VISUALIZAR REGISTROS
         self.container5 = tk.Frame(self.container2)

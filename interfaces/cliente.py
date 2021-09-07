@@ -36,7 +36,10 @@ class TelaPrincipalCliente(tk.Frame):
 
         tk.Label(self.container1,
                  text="Usuário: Fulano da Silva",
-                 font="Verdana").pack(side="left", fill="both", padx=3, pady=3)
+                 font="Default 10").pack(side="left",
+                                         fill="both",
+                                         padx=3,
+                                         pady=3)
 
         tk.Button(self.container1, text="Logout",
                   command=self.fechar).pack(side="right",
