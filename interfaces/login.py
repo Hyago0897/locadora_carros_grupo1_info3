@@ -1,5 +1,6 @@
 import tkinter as tk
 import tkinter.ttk as ttk
+from ..back_end import bancoDados
 
 
 class TelaLogin(tk.Frame):
