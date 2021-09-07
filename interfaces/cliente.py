@@ -22,7 +22,7 @@ class TelaPrincipalCliente(tk.Frame):
 
         master.config(menu=self.menu)
 
-        self.abas = ttk.Notebook(self.container1)
+        self.abas = ttk.Notebook(self.container1, height=17)
         self.abas.pack(fill="both", expand=1, padx=3, pady=3)
 
         self.painel_contrato = tk.Frame(self.abas)
@@ -64,13 +64,22 @@ class TelaPrincipalCliente(tk.Frame):
         self.container3 = tk.Frame(self.containerC1)
         self.container3.pack(fill='both', expand=1, padx=3, pady=3)
 
-        tk.Label(self.container3, text="VEÍCULO:").grid(row=0, column=0)
-        self.veiculo = ttk.Combobox(self.container3)
-        self.veiculo.grid(row=0, column=1)
+        tk.Label(self.container3, text="VEÍCULO:").grid(row=0,
+                                                        column=0,
+                                                        sticky="w")
+        self.veiculo = ttk.Combobox(self.container3, width=32)
+        self.veiculo.grid(row=1, column=0, padx=3, pady=3)
 
-        tk.Label(self.container3, text="PERÍODO:").grid(row=1, column=0)
+        self.filtro = tk.Button(self.container3, text="Filtro")
+        self.filtro.grid(row=0, column=0, sticky="e")
+
+        tk.Label(self.container3, text="PERÍODO:").grid(row=2,
+                                                        column=0,
+                                                        padx=3,
+                                                        pady=3,
+                                                        sticky="w")
         self.containerPeriodo = tk.Frame(self.container3)
-        self.containerPeriodo.grid(row=1, column=1)
+        self.containerPeriodo.grid(row=3, column=0, sticky="w")
         self.inicio = DateEntry(self.containerPeriodo,
                                 DATA_BASE.strftime("%d/%m/%Y"),
                                 width=10)
@@ -79,10 +88,14 @@ class TelaPrincipalCliente(tk.Frame):
                              DATA_BASE.strftime("%d/%m/%Y"),
                              width=10)
 
-        tk.Label(self.containerPeriodo, text="De").grid(column=0, row=0)
+        tk.Label(self.containerPeriodo, text="Início:").grid(column=0,
+                                                             row=0,
+                                                             padx=(5, 2))
         self.inicio.grid(column=1, row=0)
-        tk.Label(self.containerPeriodo, text="Até").grid(column=0, row=1)
-        self.fim.grid(column=1, row=1)
+        tk.Label(self.containerPeriodo, text="Fim:").grid(column=2,
+                                                          row=0,
+                                                          padx=(5, 2))
+        self.fim.grid(column=3, row=0)
 
         self.container4 = tk.Frame(self.containerC1)
         self.container4.pack(fill='both', expand=1, padx=3, pady=3)
@@ -97,6 +110,7 @@ class TelaPrincipalCliente(tk.Frame):
         barraH = tk.Scrollbar(self.container5, orient="horizontal")
         self.lista_clientes = tk.Listbox(self.container5,
                                          width=20,
+                                         height=7,
                                          yscrollcommand=barraV.set,
                                          xscrollcommand=barraH.set,
                                          selectmode="SINGLE")
@@ -115,10 +129,6 @@ class TelaPrincipalCliente(tk.Frame):
 
     def fechar(self):
         self.master.destroy()
-
-    def retbutton(self):
-        print(self.master.geometry())
-        return 3
 
 
 class DateEntry(tk.Entry):
@@ -141,6 +151,9 @@ class DateEntry(tk.Entry):
                 if self.get()[:2] > "31":
                     self.delete(0, tk.END)
                     self.insert(tk.END, "31")
+                elif self.get()[:2] == "00":
+                    self.delete(0, tk.END)
+                    self.insert(0, "01")
                 self.insert(tk.END, "/")
 
             elif len(self.get()) == 5:
@@ -155,19 +168,22 @@ class DateEntry(tk.Entry):
                     if self.get()[:2] > "29":
                         self.delete(0, 2)
                         self.insert(0, "29")
+                elif self.get()[3:5] == "00":
+                    self.delete(3, tk.END)
+                    self.insert(tk.END, "01")
 
                 self.insert(tk.END, "/")
 
             elif len(self.get()) >= 10:
-                if self.get()[6:10] < self.data_base[6:10]:
+                if self.get()[6:10] <= self.data_base[6:10]:
                     self.delete(6, tk.END)
                     self.insert(tk.END, self.data_base[6:10])
 
-                    if self.get()[3:5] < self.data_base[3:5]:
+                    if self.get()[3:5] <= self.data_base[3:5]:
                         self.delete(3, 5)
                         self.insert(3, self.data_base[3:5])
 
-                        if self.get()[:2] < self.data_base[:2]:
+                        if self.get()[:2] <= self.data_base[:2]:
                             self.delete(0, 2)
                             self.insert(0, self.data_base[:2])
                 if self.get()[3:5] == "02":
@@ -196,6 +212,6 @@ class DateEntry(tk.Entry):
 
 if __name__ == "__main__":
     app = tk.Tk()
-    app.geometry("290x330")
+    app.geometry("310x260")
     TelaPrincipalCliente(app)
     app.mainloop()

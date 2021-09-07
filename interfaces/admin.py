@@ -60,7 +60,7 @@ class TelaPrincipalAdmin(tk.Frame):
         self.master.destroy()
 
     def pref(self):
-        print("Acessando preferências")
+        print(self.master.geometry())
 
     def retbutton(self):
         print(self.master.geometry())
@@ -97,7 +97,7 @@ class VeiculoFrame(tk.Frame):
         self.nome.grid(row=1, column=1)
 
         tk.Label(self.container3, text="MARCA:").grid(row=2, column=0)
-        self.idade = tk.Entry(self.container3)
+        self.idade = ttk.Combobox(self.container3)
         self.idade.grid(row=2, column=1)
 
         tk.Label(self.container3, text="MODELO:").grid(row=3, column=0)
@@ -436,6 +436,6 @@ class ManutencaoFrame(tk.Frame):
 
 if __name__ == "__main__":
     app = tk.Tk()
-    app.geometry("470x350")
+    app.geometry("550x357")
     TelaPrincipalAdmin(app)
     app.mainloop()
