@@ -39,8 +39,3 @@ class ValidaCPF:
         if digito >= 10:
             return (fatia_cpf + str(0))
         return (fatia_cpf + str(digito))
-
-if __name__ == "__main__":
-    cpf = '123.456.789-09'
-    a = ValidaCPF(cpf)
-    a.valida()
