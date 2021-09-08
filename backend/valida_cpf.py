@@ -1,6 +1,7 @@
 #
-#Todos os direitos reservados à Otávio Miranda
+# Todos os direitos reservados à Otávio Miranda
 # GitHub: https://github.com/luizomf/validacpfcnpj
+# Copyright (c) 2019 Luiz Otávio Miranda
 #
 
 

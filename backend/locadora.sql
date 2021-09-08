@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS cliente (
 	endereco TEXT NOT NULL,
 	fone TEXT NOT NULL,
 	`e-mail` TEXT,
-	login TEXT NOT NULL,
+	login TEXT NOT NULL UNIQUE,
 	senha TEXT NOT NULL
 );
 
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS veiculo (
 	cor TEXT,
 	descricao TEXT,
 	ano TEXT,
-	status_veiculo TEXT NOT NULL,,
+	status_veiculo TEXT NOT NULL,
 	FOREIGN key (modelo) REFERENCES manutencao(modelo)
 );
 
