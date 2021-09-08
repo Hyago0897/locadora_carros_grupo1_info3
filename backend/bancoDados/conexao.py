@@ -3,13 +3,14 @@ import sqlite3
 
 
 class BancoDeDados:
-    def __init__(self, nome_banco):
+    def __init__(self, db_name):
         try:
-            self._conexao = sqlite3.connect(nome_banco)
-            self._cursor = self._conexao.cursor()
-        except:
-            return False
-        self.exe_sql_file('back_end/bancoDados/locadora.sql')
+            self.conn = sqlite3.connect(db_name)
+            self.cursor = self.conn.cursor()
+        except Exception:
+            print('Erro ao se conectar com o banco de dados')
+
+        self.exe_sql_file('locadora.db')
 
     @property
     def cursor(self):
@@ -41,21 +42,16 @@ class BancoDeDados:
 
         print('terminou sem erro')
 
-    def sql(self, comando: str, valores:tuple=None ):
-        if valores == None:
-            return self.cursor.execute(comando)
+    def exe(self, sql: str):
+        resultado = self.cursor.execute(sql)
+        self.commit_db()
+        return resultado
         
-        return self.cursor.execute(comando, valores)
 
     def commit_db(self):
         if self._conexao:
             self._conexao.commit()
 
-    def desconectar(self, exc_type, exc_value, exc_tb):
-        self._conexao.commit()
-        self._conexao.close()
-
-
-if __name__ == "__main__":
-    with BancoDeDados() as a:
-        print('a')
+    def close(self):
+        if self.conn:
+            self.conn.close()
