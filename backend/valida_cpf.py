@@ -1,7 +1,17 @@
+import re
+
+
 class ValidaCPF:
     def __init__(self, cpf):
         self.cpf = cpf
-        #print(self.cpf[0])
+
+    @property
+    def cpf(self):
+        return self._cpf
+
+    @cpf.setter
+    def cpf(self, cpf):
+        self._cpf = re.sub(r'[^0-9]', '',cpf)
 
     def valida(self):
         if not self.cpf:
@@ -12,8 +22,7 @@ class ValidaCPF:
         
         if novo_cpf == self.cpf:
             return True
-        else:
-            return False
+        return False
 
     @staticmethod
     def _calcula_digito(fatia_cpf):
@@ -27,12 +36,11 @@ class ValidaCPF:
         for chave, multi in enumerate(range(len(fatia_cpf)+1, 1, -1)):
             soma += int(fatia_cpf[chave]) * multi
         digito = 11 - (soma%11)
-        print(digito)
         if digito >= 10:
             return (fatia_cpf + str(0))
         return (fatia_cpf + str(digito))
 
 if __name__ == "__main__":
-    cpf = '12345678987'
+    cpf = '123.456.789-09'
     a = ValidaCPF(cpf)
     a.valida()
