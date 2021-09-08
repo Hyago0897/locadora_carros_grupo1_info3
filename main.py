@@ -13,6 +13,7 @@ top1.title("Top 1 Window")
 top1.wm_attributes("-topmost", 1) ## Para que top1 esteja no topo no começo
 '''
 BANCO = "banco.db"
+PREFERENCIAS = ".config.json"
 
 
 class App():
@@ -20,17 +21,36 @@ class App():
         self.master = master
         self.master.withdraw()
         self.banco = BancoDeDados(banco)
-        self.usuario = self.login()
+        self.banco.exe_sql_file("backend/locadora.sql")
+        self.usuario, tipo = self.login()
+        if self.usuario == '':
+            self.fechar()
+
+        if tipo == "adm":
+            self.telaprincipal = self.top(TelaPrincipalAdmin)
+        else:
+            self.telaprincipal = self.top(TelaPrincipalCliente)
+
+    def top(self, tela, **kwargs):
+        tp = tk.Toplevel(self.master)
+        t = tela(tp, **kwargs)
+        t.bind("<Escape>", self.fechar)
+        return t
 
     def login(self):
         top = tk.Toplevel(self.master)
-        top.protocol("WM_DELETE_WINDOW", self.fechar)
         tela = TelaLogin(top, self.banco)
         tela.bind("<Escape>", self.fechar)
+        tela.wait_window()
+        return tela.user
+
+    def preferencias(self):
+        print("Acessando preferencias")
 
     def fechar(self):
-        if messagebox.askokcancel("Sair", "Deseja fechar o programa?"):
-            self.master.destroy()
+        self.master.destroy()
+        self.banco.close()
+        exit()
 
 
 base = tk.Tk()

@@ -9,6 +9,7 @@ class TelaLogin(tk.Frame):
         tk.Frame.__init__(self, master)
         self.master = master
         self.bd = banco
+        self.user = ('', '')
 
         self.master.title("Login")
 
@@ -74,34 +75,33 @@ class TelaLogin(tk.Frame):
     def logar_cliente(self):
         if self.verifica_campos():
             login, senha = self.get_dados()
-            res = self.bd.cursor().execute(
-                "SELECT login, senha FROM CLIENTES").fetchall()
+            res = self.bd.cursor.execute(
+                "SELECT login, senha FROM CLIENTE").fetchall()
             usuarios = [x[0] for x in res]
             senhas = [x[1] for x in res]
             if login not in usuarios:
-                messagebox.showinfo("Aviso",
-                                    f"O Login '{login}' não foi encontrado!")
+                messagebox.showwarning("Aviso",
+                                    f"O login '{login}' não existe!")
             elif senhas[usuarios.index(login)] != senha:
                 messagebox.showinfo("Aviso", "Senha incorreta!")
             else:
-                return login
-        return None
+                self.user = (login, "normal")
+                self.destroy()
 
     def logar_admin(self):
         if self.verifica_campos():
             login, senha = self.get_dados()
-            res = self.bd.cursor().execute(
+            res = self.bd.cursor.execute(
                 "SELECT login, senha FROM ADMIN").fetchall()
             admins = [x[0] for x in res]
             senhas = [x[1] for x in res]
             if login not in admins:
-                messagebox.showinfo("Aviso",
-                                    f"O Login '{login}' não foi encontrado!")
+                messagebox.showwarning("Aviso", f"O login '{login}' não existe!")
             elif senhas[admins.index(login)] != senha:
                 messagebox.showinfo("Aviso", "Senha incorreta!")
             else:
-                return login
-        return None
+                self.user = (login, 'adm')
+                self.destroy()
 
 
 if __name__ == "__main__":
