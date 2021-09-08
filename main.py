@@ -19,7 +19,7 @@ class App():
     def __init__(self, master, banco):
         self.master = master
         self.master.withdraw()
-        self.banco = BancoDeDados()
+        self.banco = BancoDeDados(banco)
         self.usuario = self.login()
 
     def login(self):

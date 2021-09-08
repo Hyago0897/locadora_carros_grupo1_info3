@@ -10,11 +10,7 @@ class BancoDeDados:
         except Exception:
             print('Erro ao se conectar com o banco de dados')
 
-        self.exe_sql_file('locadora.db')
-
-    @property
-    def cursor(self):
-        return self._cursor
+        self.exe_sql_file('backend/locadora.sql')
 
     def exe_sql_file(self, filename):
         ###
@@ -31,7 +27,7 @@ class BancoDeDados:
             else:
                 command += line
                 try:
-                    self._cursor.execute(command)
+                    self.cursor.execute(command)
                 except (sqlite3.OperationalError,
                         sqlite3.ProgrammingError) as e:
                     print(
@@ -40,17 +36,14 @@ class BancoDeDados:
 
                 command = ""
 
-        print('terminou sem erro')
-
     def exe(self, sql: str):
         resultado = self.cursor.execute(sql)
         self.commit_db()
         return resultado
-        
 
     def commit_db(self):
-        if self._conexao:
-            self._conexao.commit()
+        if self.conn:
+            self.conn.commit()
 
     def close(self):
         if self.conn:
