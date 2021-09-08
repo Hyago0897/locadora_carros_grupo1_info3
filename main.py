@@ -1,28 +1,39 @@
 import tkinter as tk
-from tkinter.constants import N
-import interfaces
+import tkinter.ttk as ttk
+from tkinter import messagebox
 
+from backend import BancoDeDados
 
-class Janela(tk.Tk):
-    def __init__(self):
-        tk.Tk.__init__(self)
-        self._tela = None
-        self.mudaTela(interfaces.TelaLogin)
-
-    def mudaTela(self, tela):
-        nova_tela = tela(self)
-        if self._tela is not None:
-            self._tela.destroy()
-        self._tela = nova_tela
-        self._tela.pack()
-
-if __name__ == "__main__":
-    app = Janela()
-    app.mainloop()
-
+from interfaces import (TelaDiretoriosBackup, TelaFiltrar, TelaLogin,
+                        TelaPreferencias, TelaPrincipalAdmin,
+                        TelaPrincipalCliente)
 '''
-top1 = Toplevel(root, bg="light blue")
+Top1 = Toplevel(root, bg="light blue")
 top1.geometry(str(scrW) + "x" + str(scrH))
 top1.title("Top 1 Window")
 top1.wm_attributes("-topmost", 1) ## Para que top1 esteja no topo no começo
 '''
+BANCO = "banco.db"
+
+
+class App():
+    def __init__(self, master, banco):
+        self.master = master
+        self.master.withdraw()
+        self.banco = BancoDeDados(BANCO)
+        self.usuario = self.login()
+
+    def login(self):
+        top = tk.Toplevel(self.master)
+        top.protocol("WM_DELETE_WINDOW", self.fechar)
+        tela = TelaLogin(top, self.banco)
+        tela.bind("<Escape>", self.fechar)
+
+    def fechar(self):
+        if messagebox.askokcancel("Sair", "Deseja fechar o programa?"):
+            self.master.destroy()
+
+
+base = tk.Tk()
+App(base, BANCO)
+base.mainloop()
