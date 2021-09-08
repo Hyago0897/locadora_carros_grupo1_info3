@@ -20,7 +20,7 @@ class Backup:
         nome = "locadora"
         data = datetime.now()
         data = data.strftime("%d%m%Y%H%M%S")
-        shutil.make_archive(f'{nome+data}', 'zip', '../teste', 'file1.txt')
+        shutil.make_archive(f'{nome+data}', 'zip', './', 'banco.db')
 
 
 class ConfigurationBackup:
