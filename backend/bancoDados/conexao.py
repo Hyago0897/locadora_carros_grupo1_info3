@@ -3,11 +3,13 @@ import sqlite3
 
 
 class BancoDeDados:
-    def __enter__(self):
-        self._conexao = sqlite3.connect('back_end/bancoDados/locadora.db')
-        self._cursor = self._conexao.cursor()
+    def __init__(self, nome_banco):
+        try:
+            self._conexao = sqlite3.connect(nome_banco)
+            self._cursor = self._conexao.cursor()
+        except:
+            return False
         self.exe_sql_file('back_end/bancoDados/locadora.sql')
-        return self
 
     @property
     def cursor(self):
@@ -39,11 +41,17 @@ class BancoDeDados:
 
         print('terminou sem erro')
 
-    def sql(self, comando, valores=None):
+    def sql(self, comando: str, valores:tuple=None ):
         if valores == None:
-            self.cursor.execute(comando)
+            return self.cursor.execute(comando)
+        
+        return self.cursor.execute(comando, valores)
 
-    def __exit__(self, exc_type, exc_value, exc_tb):
+    def commit_db(self):
+        if self._conexao:
+            self._conexao.commit()
+
+    def desconectar(self, exc_type, exc_value, exc_tb):
         self._conexao.commit()
         self._conexao.close()
 
