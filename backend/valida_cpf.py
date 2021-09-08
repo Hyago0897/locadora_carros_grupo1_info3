@@ -1,3 +1,9 @@
+#
+#Todos os direitos reservados à Otávio Miranda
+# GitHub: https://github.com/luizomf/validacpfcnpj
+#
+
+
 import re
 
 
