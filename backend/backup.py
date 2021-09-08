@@ -13,6 +13,7 @@ class ConfigurationBackup:
         self.arq_json = None
         self.arq_json = self.abri_json('r', dict_create)
         self.locais = self.locais_backups(self.arq_json["locals"])
+        self.tempo = self.arq_json["tempo"]
 
     def abri_json(self, abertura, valores):
         try:
@@ -41,6 +42,14 @@ class ConfigurationBackup:
     @locais.setter
     def locais(self, value):
         self._locais = value
+
+    @property
+    def tempo(self):
+        return self._tempo
+
+    @tempo.setter
+    def tempo(self, tempo):
+        self._tempo = tempo
 
     def mudar_local(self, novo_local):
         if not self.arq_json:
