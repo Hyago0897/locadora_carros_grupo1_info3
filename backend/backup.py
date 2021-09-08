@@ -1,7 +1,26 @@
 import json
+import schedule, time, shutil, zipfile
+from datetime import datetime
 
 
 ARQUIVO = "locals_backup.json"
+
+
+class Backup:
+    def __inti__(self):
+        self.config = ConfigurationBackup()
+
+    def configura_local(self, lista):
+        self.config.mudar_local = lista
+
+    def configura_tempo(self, tempo):
+        self.config.mudar_tempo = tempo
+    
+    def executar_backup(self):
+        nome = "locadora"
+        data = datetime.now()
+        data = data.strftime("%d%m%Y%H%M%S")
+        shutil.make_archive(f'{nome+data}', 'zip', '../teste', 'file1.txt')
 
 
 class ConfigurationBackup:
@@ -12,7 +31,7 @@ class ConfigurationBackup:
         }
         self.arq_json = None
         self.arq_json = self.abri_json('r', dict_create)
-        self.locais = self.locais_backups(self.arq_json["locals"])
+        if self.arq_json is not None: self.locais = self.locais_backups(self.arq_json["locals"])
         self.tempo = self.arq_json["tempo"]
 
     def abri_json(self, abertura, valores):
