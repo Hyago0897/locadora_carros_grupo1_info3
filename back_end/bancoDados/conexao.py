@@ -4,8 +4,9 @@ import sqlite3
 
 class BancoDeDados:
     def __enter__(self):
-        self._conexao = sqlite3.connect('locadora.db')
+        self._conexao = sqlite3.connect('back_end/bancoDados/locadora.db')
         self._cursor = self._conexao.cursor()
+        self.exe_sql_file('back_end/bancoDados/locadora.sql')
         return self
 
     @property
@@ -45,3 +46,8 @@ class BancoDeDados:
     def __exit__(self, exc_type, exc_value, exc_tb):
         self._conexao.commit()
         self._conexao.close()
+
+
+if __name__ == "__main__":
+    with BancoDeDados() as a:
+        print('a')
