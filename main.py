@@ -3,7 +3,6 @@ import tkinter.ttk as ttk
 from tkinter import messagebox
 
 from backend import BancoDeDados
-
 from interfaces import (TelaDiretoriosBackup, TelaFiltrar, TelaLogin,
                         TelaPreferencias, TelaPrincipalAdmin,
                         TelaPrincipalCliente)
@@ -20,7 +19,7 @@ class App():
     def __init__(self, master, banco):
         self.master = master
         self.master.withdraw()
-        self.banco = BancoDeDados(BANCO)
+        self.banco = BancoDeDados()
         self.usuario = self.login()
 
     def login(self):

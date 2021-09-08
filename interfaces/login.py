@@ -2,7 +2,6 @@ import tkinter as tk
 import tkinter.ttk as ttk
 
 
-
 class TelaLogin(tk.Frame):
     def __init__(self, master, banco):
         tk.Frame.__init__(self, master)
@@ -51,9 +50,11 @@ class TelaLogin(tk.Frame):
         self.senha.delete(0, tk.END)
         self.nome.focus()
 
-    def verificar_dados(self):
-        print(self.nome.get() == "gilson")
-        return self.nome.get() == "gilson"
+    def logar_cliente(self):
+        pass
+
+    def logar_admin(self):
+        pass
 
 
 if __name__ == "__main__":

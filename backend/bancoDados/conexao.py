@@ -40,12 +40,29 @@ class BancoDeDados:
         print('terminou sem erro')
 
     def sql(self, comando, valores=None):
-        if valores == None:
+        if valores is None:
             self.cursor.execute(comando)
 
     def __exit__(self, exc_type, exc_value, exc_tb):
         self._conexao.commit()
         self._conexao.close()
+
+
+class BancoDados():
+    def __init__(self, db_name):
+        try:
+            self.conn = sqlite3.connect(db_name)
+            self.cursor = self.conn.cursor()
+        except Exception:
+            print('Erro ao se conectar com o banco de dados')
+
+    def commit(self):
+        if self.conn:
+            self.conn.commit()
+
+    def close(self):
+        if self.conn:
+            self.conn.close()
 
 
 if __name__ == "__main__":
