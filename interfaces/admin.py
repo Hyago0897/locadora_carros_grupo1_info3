@@ -3,6 +3,8 @@ import re
 import tkinter as tk
 import tkinter.ttk as ttk
 
+from .preferencias import TelaPreferencias
+
 
 class TelaPrincipalAdmin(tk.Frame):
     def __init__(self, master):
@@ -65,7 +67,10 @@ class TelaPrincipalAdmin(tk.Frame):
         self.master.destroy()
 
     def pref(self):
-        print(self.master.geometry())
+        top = tk.Toplevel(self.master)
+        tela = TelaPreferencias(top)
+        tela.wait_window()
+        return tela.prefs
 
     def retbutton(self):
         print(self.master.geometry())
@@ -684,8 +689,6 @@ class PlacaEntry(tk.Entry):
             self.select_clear()
         else:
             return "break"
-
-        
 
 
 class CPFEntry(tk.Entry):

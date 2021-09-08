@@ -1,4 +1,5 @@
 interface/modulos.txt
 interface/main.py
-
-__pycache__
+.gitignore
+__pycache__/
+banco.db
