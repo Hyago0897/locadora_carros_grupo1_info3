@@ -30,9 +30,7 @@ class BancoDeDados:
                     self.cursor.execute(command)
                 except (sqlite3.OperationalError,
                         sqlite3.ProgrammingError) as e:
-                    print(
-                        "\n[WARN] MySQLError during execute statement \n\tArgs: '%s'"
-                        % (str(e.args)))
+                    return False
 
                 command = ""
 
