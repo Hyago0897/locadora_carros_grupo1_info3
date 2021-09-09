@@ -162,7 +162,7 @@ class VeiculoFrame(tk.Frame):
             self.ano.get().strip()
         ]
         if all([bool(x)for x in self.obrigatorios]):
-            placa = self.placa.get()
+            placa = self.placa.get().strip()
             if len(placa) == 7:
                 placas = self.banco.exe("SELECT placa FROM VEICULO")
                 placas = [x[0] for x in placas]
@@ -304,7 +304,7 @@ class VeiculoFrame(tk.Frame):
             self.lista_veiculos.select_set(0)
         else:
             messagebox.showinfo(title="Informação",
-                                message="Nenhum usuário foi selecionado")
+                                message="Nenhum registro foi selecionado")
 
     def deletar_veiculo(self):
         index = self.lista_veiculos.curselection()
@@ -317,7 +317,7 @@ class VeiculoFrame(tk.Frame):
             self.lista_veiculos.select_set(0)
         else:
             messagebox.showinfo(title="Informação",
-                                message="Nenhum usuário foi selecionado")
+                                message="Nenhum registro foi selecionado")
 
     def cancelar(self):
         self.btn_deletar.configure(state="normal")
