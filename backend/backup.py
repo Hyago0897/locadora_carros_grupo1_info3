@@ -15,7 +15,7 @@ class ConfigurationBackup:
         self.arq_json = self.abri_json('r')
         self.locais, self.tempo = self._locais_backups_(self.arq_json["locals"]), self.arq_json["tempo"]
 
-    def abri_json(self, abertura: str, valores: dict = None):
+    def abri_json(self, abertura: str, valores):
         try:
             if abertura == 'r':
                 with open(self.file_name, abertura, encoding="utf-8") as arq:
@@ -54,7 +54,10 @@ class ConfigurationBackup:
     def mudar_local(self, novo_local):
         if not self.arq_json:
             return False
-        
+
+        if type(novo_local) is not list:
+            raise ValueError('Is not list')
+
         self.locais = novo_local
         self.arq_json["locals"] = self.locais
         self.abri_json('w', self.arq_json)

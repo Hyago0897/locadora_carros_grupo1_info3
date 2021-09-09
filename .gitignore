@@ -3,3 +3,4 @@ interface/main.py
 .gitignore
 __pycache__/
 banco.db
+interfaces/teste.db
