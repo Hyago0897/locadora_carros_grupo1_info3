@@ -171,9 +171,7 @@ class VeiculoFrame(tk.Frame):
                 else:
                     messagebox.showwarning(
                         "Aviso", f"A placa '{placa}' já foi cadastrada!")
-                    return False
-            else:
-                return False
+        return False
 
     def lista_modelos(self):
         modelos = self.banco.exe("SELECT modelo FROM MANUTENCAO").fetchall()
