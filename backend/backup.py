@@ -76,7 +76,7 @@ class Backup(ConfigurationBackup):
         self.mover_para(origem_bkp)
     
     def mover_para(self, origem_bkp):
-        if self.locais != '':
+        if type(self.locais) is list:
             for c in self.locais:
                 shutil.copy(origem_bkp, c)
             os.remove(origem_bkp)
