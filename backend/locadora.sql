@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS cliente (
 	senha TEXT NOT NULL,	
 	email TEXT,
 	endereco TEXT NOT NULL,
-	fone TEXT NOT NULL,
+	fone TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS manutencao (
