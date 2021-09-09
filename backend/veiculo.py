@@ -43,7 +43,7 @@ def formatar_veiculos(database):
 
 def filtrar_veiculos(database, modelo, marca, cor):
     dadosBase = formatar_veiculos(database)
-    for campo, valor in ((modelo, marca, cor), (3, 2, 4)):
+    for campo, valor in zip((modelo, marca, cor), (3, 2, 4)):
         if campo == None or campo == '':
             pass
         else:
