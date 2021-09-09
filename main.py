@@ -60,6 +60,7 @@ class App():
         self.pref = TelaPreferencias(self.topPref, PREFERENCIAS)
         self.pref.btnOk.configure(command=self.prefok)
         self.pref.btn_preferencias.configure(command=self.abrir_dirbk)
+        self.pref.btn_importar.configure(command=self.importar_banco)
 
         # DIRBACKUP
         self.topBk.protocol("WM_DELETE_WINDOW", self.fechar_dirbk)
@@ -131,6 +132,9 @@ class App():
         self.master.destroy()
         self.banco.close()
         exit()
+
+    def importar_banco(self):
+        pass
 
 
 base = tk.Tk()
