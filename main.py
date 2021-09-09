@@ -1,6 +1,8 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter import messagebox
+from tkinter.simpledialog import askstring
+import os
 
 from backend import BancoDeDados
 from interfaces import (TelaDiretoriosBackup, TelaFiltrar, TelaLogin,
@@ -20,8 +22,12 @@ class App():
     def __init__(self, master, banco):
         self.master = master
         self.master.withdraw()
-        self.banco = BancoDeDados(banco)
-        self.banco.exe_sql_file("backend/locadora.sql")
+        if not os.path.isfile(banco):
+            self.banco = BancoDeDados(banco)
+            self.banco.exe_sql_file("backend/locadora.sql")
+        else:
+            self.banco = BancoDeDados(banco)
+        self.verifica_admin()
 
         self.topLogin = tk.Toplevel(self.master)
         self.topTPAdmin = tk.Toplevel(self.master)
@@ -71,6 +77,33 @@ class App():
         self.topFiltro.protocol("WM_DELETE_WINDOW", self.fechar_filtro)
         self.filtro = TelaFiltrar(self.topFiltro)
         self.filtro.btnOk.configure(command=self.filtroOk)
+
+    def verifica_admin(self):
+        if not len(
+                self.banco.cursor.execute(
+                    "SELECT login FROM admin").fetchall()):
+            if messagebox.askyesno(
+                    title="Criar admin",
+                    message="Nenhum admin foi encontrado, deseja criar um novo?"
+            ):
+                while True:
+                    nome = askstring("Dados admin", "Nome do admin:")
+                    login = askstring("Dados admin", "Login do admin:")
+                    senha = askstring("Dados admin",
+                                      "Senha do admin:",
+                                      show='*')
+
+                    if nome and login and senha:
+                        self.banco.cursor.execute(
+                            f"""INSERT INTO ADMIN(login, senha,nome)
+                            VALUES ('{login}','{senha}','{nome}');""")
+                        break
+                    else:
+                        if not messagebox.askokcancel(
+                                title="Aviso",
+                                message="Preencha todos os campos!\n"
+                                "Deseja tentar novamente?"):
+                            break
 
     def logar(self):
         usuario = self.login.logar_usuario()
