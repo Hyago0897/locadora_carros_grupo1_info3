@@ -43,34 +43,16 @@ def formatar_veiculos(database):
 
 def filtrar_veiculos(database, modelo, marca, cor):
     dadosBase = formatar_veiculos(database)
-    if modelo == None or modelo == '':
-        pass
-    else:
-        tabela_aux = []
-        for i in range(len(dadosBase)):
-            a = dadosBase[i][3]
-            if a == modelo:
-                tabela_aux.append(dadosBase[i])
-        dadosBase = tabela_aux
+    for campo, valor in ((modelo, marca, cor), (3, 2, 4)):
+        if campo == None or campo == '':
+            pass
+        else:
+            tabela_aux = []
+            for i in range(len(dadosBase)):
+                a = dadosBase[i][valor]
+                if a == campo:
+                    tabela_aux.append(dadosBase[i])
+            dadosBase = tabela_aux
 
-    if marca == None or marca == '':
-        pass
-    else:
-        tabela_aux = []
-        for i in range(len(dadosBase)):
-            a = dadosBase[i][2]
-            if a == marca:
-                tabela_aux.append(dadosBase[i])
-        dadosBase = tabela_aux
-    if cor == None or cor == '':
-        pass
-    else:
-        tabela_aux = []
-        for i in range(len(dadosBase)):
-            a = dadosBase[i][4]
-            if a == cor:
-                tabela_aux.append(dadosBase[i])
-        dadosBase = tabela_aux
     for i in range(len(dadosBase)):
         print(dadosBase[i])
-
