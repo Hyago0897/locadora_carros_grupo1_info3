@@ -15,7 +15,7 @@ class ConfigurationBackup:
         self.arq_json = self.abri_json('r')
         self.locais, self.tempo = self._locais_backups_(self.arq_json["locals"]), self.arq_json["tempo"]
 
-    def abri_json(self, abertura: str, valores):
+    def abri_json(self, abertura: str, valores=None):
         try:
             if abertura == 'r':
                 with open(self.file_name, abertura, encoding="utf-8") as arq:
