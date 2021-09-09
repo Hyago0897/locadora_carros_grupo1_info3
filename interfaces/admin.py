@@ -5,9 +5,10 @@ import tkinter.ttk as ttk
 
 
 class TelaPrincipalAdmin(tk.Frame):
-    def __init__(self, master):
+    def __init__(self, master, banco):
         tk.Frame.__init__(self, master)
         self.master = master
+        self.banco = banco
         master.title("MENU PRINCIPAL")
 
         self.container1 = tk.Frame(master)
@@ -44,10 +45,8 @@ class TelaPrincipalAdmin(tk.Frame):
                                 font="Default 10")
         self.nomeAdm.pack(side="left", fill="both", padx=3, pady=3)
 
-        tk.Button(self.container1, text="Logout").pack(side="right",
-                                            fill="both",
-                                            padx=3,
-                                            pady=3)
+        self.logout = tk.Button(self.container1, text="Logout")
+        self.logout.pack(side="right", fill="both", padx=3, pady=3)
 
         # Veiculos
         self.veiculo = VeiculoFrame(self.painel_veiculo)
@@ -61,7 +60,9 @@ class TelaPrincipalAdmin(tk.Frame):
     def pref(self):
         pass
 
-    def renomear(self, novo):
+    def renomear(self, login):
+        novo = self.banco.cursor.execute(
+            "SELECT nome FROM admin WHERE login=" + repr(login)).fetchone()[0]
         self.nomeAdm.configure(text="Admin: " + str(novo))
 
 

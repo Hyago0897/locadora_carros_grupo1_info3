@@ -37,20 +37,17 @@ class TelaDiretoriosBackup(tk.Frame):
 
         self.lista_clientes.pack(fill='x')
 
-        tk.Button(self.container4, text="ADICIONAR").pack(fill="both",
-                                                          expand=1,
-                                                          pady=(0, 2),
-                                                          padx=(3, 3))
-        tk.Button(self.container4, text="EDITAR").pack(fill="both",
-                                                       expand=1,
-                                                       pady=(0, 2),
-                                                       padx=(3, 3))
-        tk.Button(self.container4, text="DELETAR").pack(fill="both",
-                                                        expand=1,
-                                                        pady=(0, 0),
-                                                        padx=(3, 3))
+        self.btn_add = tk.Button(self.container4, text="ADICIONAR")
+        self.btn_add.pack(fill="both", expand=1, pady=(0, 2), padx=(3, 3))
 
-        tk.Button(self.container2, text="SALVAR").grid(column=1, row=3)
+        self.btn_editar = tk.Button(self.container4, text="EDITAR")
+        self.btn_editar.pack(fill="both", expand=1, pady=(0, 2), padx=(3, 3))
+
+        self.btn_del = tk.Button(self.container4, text="DELETAR")
+        self.btn_del.pack(fill="both", expand=1, pady=(0, 0), padx=(3, 3))
+
+        self.btn_salvar = tk.Button(self.container2, text="SALVAR")
+        self.btn_salvar.grid(column=1, row=3)
 
 
 if __name__ == "__main__":

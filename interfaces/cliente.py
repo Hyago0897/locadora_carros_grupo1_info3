@@ -6,11 +6,13 @@ DATA_BASE = datetime.date.today()
 
 
 class TelaPrincipalCliente(tk.Frame):
-    def __init__(self, master):
+    def __init__(self, master, banco):
         global DATA_BASE
         tk.Frame.__init__(self, master)
         self.master = master
+        self.banco = banco
         master.title("MENU PRINCIPAL")
+        master.geometry("310x260")
 
         self.container1 = tk.Frame(master)
         self.container1.pack(fill="both", expand=1)
@@ -34,18 +36,13 @@ class TelaPrincipalCliente(tk.Frame):
         self.abas.add(self.painel_contrato, text="NOVO CONTRATO")
         self.abas.add(self.painel_pagar, text="PAGAR CONTRATO")
 
-        tk.Label(self.container1,
-                 text="Usuário: Fulano da Silva",
-                 font="Default 10").pack(side="left",
-                                         fill="both",
-                                         padx=3,
-                                         pady=3)
+        self.nomeUser = tk.Label(self.container1,
+                                 text="Usuário: ",
+                                 font="Default 10")
+        self.nomeUser.pack(side="left", fill="both", padx=3, pady=3)
 
-        tk.Button(self.container1, text="Logout",
-                  command=self.fechar).pack(side="right",
-                                            fill="both",
-                                            padx=3,
-                                            pady=3)
+        self.logout = tk.Button(self.container1, text="Logout")
+        self.logout.pack(side="right", fill="both", padx=3, pady=3)
 
         # Contratos
 
@@ -129,6 +126,12 @@ class TelaPrincipalCliente(tk.Frame):
         self.lista_clientes.pack(fill='x')
         tk.Button(self.container6, text="PAGAR CONTRATO").pack(expand=1,
                                                                fill="both")
+
+    def renomear(self, login):
+        novo = self.banco.cursor.execute(
+            "SELECT nome FROM CLIENTE WHERE login=" +
+            repr(login)).fetchone()[0]
+        self.nomeUser.configure(text="Usuário: " + novo)
 
     def fechar(self):
         self.master.destroy()

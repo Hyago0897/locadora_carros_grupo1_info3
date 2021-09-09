@@ -36,23 +36,40 @@ class App():
         self.topFiltro.withdraw()
         self.topBk.withdraw()
 
-        self.topTPAdmin.protocol("WM_DELETE_WINDOW", self.fechar)
-        self.topTPCliente.protocol("WM_DELETE_WINDOW", self.fechar)
+        # LOGIN
         self.topLogin.protocol("WM_DELETE_WINDOW", self.fechar)
+        self.login = TelaLogin(self.topLogin, self.banco)
+        self.login.btnLogin.configure(command=self.logar)
 
-        self.topPref.protocol("WM_DELETE_WINDOW", self.fechar_pref)
-
-        self.admin = TelaPrincipalAdmin(self.topTPAdmin)
+        # ADMIN
+        self.topTPAdmin.protocol("WM_DELETE_WINDOW", self.fechar)
+        self.admin = TelaPrincipalAdmin(self.topTPAdmin, banco=self.banco)
         self.admin.prog.entryconfigure(0, command=self.abrir_pref)
         self.admin.prog.entryconfigure(1, command=self.fechar)
+        self.admin.logout.configure(command=self.logoutAdm)
 
-        self.cliente = TelaPrincipalCliente(self.topTPCliente)
+        # CLIENTE
+        self.topTPCliente.protocol("WM_DELETE_WINDOW", self.fechar)
+        self.cliente = TelaPrincipalCliente(self.topTPCliente,
+                                            banco=self.banco)
+        self.cliente.filtro.configure(command=self.abrir_filtro)
+        self.cliente.logout.configure(command=self.logoutCliente)
+
+        # PREFERENCIAS
+        self.topPref.protocol("WM_DELETE_WINDOW", self.fechar_pref)
         self.pref = TelaPreferencias(self.topPref, PREFERENCIAS)
-        self.filtro = TelaFiltrar(self.topFiltro)
-        self.bk = TelaDiretoriosBackup(self.topBk)
-        self.login = TelaLogin(self.topLogin, self.banco)
+        self.pref.btnOk.configure(command=self.prefok)
+        self.pref.btn_preferencias.configure(command=self.abrir_dirbk)
 
-        self.login.btnLogin.configure(command=self.logar)
+        # DIRBACKUP
+        self.topBk.protocol("WM_DELETE_WINDOW", self.fechar_dirbk)
+        self.bk = TelaDiretoriosBackup(self.topBk)
+        self.bk.btn_salvar.configure(command=self.dirbkok)
+
+        # FILTRO
+        self.topFiltro.protocol("WM_DELETE_WINDOW", self.fechar_filtro)
+        self.filtro = TelaFiltrar(self.topFiltro)
+        self.filtro.btnOk.configure(command=self.filtroOk)
 
     def logar(self):
         usuario = self.login.logar_usuario()
@@ -62,6 +79,17 @@ class App():
             if usuario[1] == "admin":
                 self.topTPAdmin.deiconify()
                 self.admin.renomear(usuario[0])
+            else:
+                self.topTPCliente.deiconify()
+                self.cliente.renomear(usuario[0])
+
+    def logoutAdm(self):
+        self.topTPAdmin.withdraw()
+        self.topLogin.deiconify()
+
+    def logoutCliente(self):
+        self.topTPCliente.withdraw()
+        self.topLogin.deiconify()
 
     def abrir_pref(self):
         self.topPref.deiconify()
@@ -70,6 +98,34 @@ class App():
     def fechar_pref(self):
         self.topPref.grab_release()
         self.topPref.withdraw()
+
+    def prefok(self):
+        self.topPref.grab_release()
+        self.topPref.withdraw()
+
+    def abrir_dirbk(self):
+        self.topBk.deiconify()
+        self.topBk.grab_set()
+
+    def fechar_dirbk(self):
+        self.topBk.grab_release()
+        self.topBk.withdraw()
+
+    def dirbkok(self):
+        self.topBk.grab_release()
+        self.topBk.withdraw()
+
+    def abrir_filtro(self):
+        self.topFiltro.deiconify()
+        self.topFiltro.grab_set()
+
+    def fechar_filtro(self):
+        self.topFiltro.grab_release()
+        self.topFiltro.withdraw()
+
+    def filtroOk(self):
+        self.topFiltro.grab_release()
+        self.topFiltro.withdraw()
 
     def fechar(self):
         self.master.destroy()
