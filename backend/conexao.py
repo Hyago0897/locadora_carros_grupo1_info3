@@ -10,8 +10,6 @@ class BancoDeDados:
         except Exception:
             print('Erro ao se conectar com o banco de dados')
 
-        self.exe_sql_file('backend/locadora.sql')
-
     def exe_sql_file(self, filename):
         ###
         # Direitos para
