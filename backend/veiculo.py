@@ -1,23 +1,6 @@
-#Classes:
-
-#class Conecta():
-    #def __init__(self, data_base):
-    #    try:
-    #        self.conn = sqlite3.connect(data_base)
-    #        self.cursor = self.conn.cursor()
-    #    except:
-    #        print('Erro ao se conectar com o banco de dados')
-    #def commit_db(self):
-    #    if self.conn:
-    #        self.conn.commit()
-    #def close_db(self):
-    #    if self.conn:
-    #        self.conn.close()
-
 class TabelaVeiculo():
     def __init__(self, database):
         self.db = database
-        self.tabela
     def consulta_dados(self):
         retorno = []
         result = self.db.exe("""
@@ -26,33 +9,7 @@ class TabelaVeiculo():
         for registro in result.fetchall():
             retorno.append(registro)
         return retorno
-    #def desconectar(self):
-    #    self.db.close_db()
 
-#Funções:
-
-#def inserir_veiculo(placa, marca, modelo, cor, descricao, ano, status_veiculo):
-    #placa = str(placa)
-    #marca = str(marca)
-    #modelo = str(modelo)
-    #cor = str(cor)
-    #descricao = str(descricao)
-    #ano = str(ano)
-    #status_veiculo = str(status_veiculo)
-
-    #conn = sqlite3.connect('bancoBagunca.db')
-
-    #cursor = conn.cursor()
-
-    # inserindo dados na tabela
-    #cursor.execute("""
-    #INSERT INTO veiculo (placa, marca, modelo, cor, descricao, ano, status_veiculo)
-    #VALUES (?,?,?,?,?,?,?);
-    #""", (placa, marca, modelo, cor, descricao, ano, status_veiculo))
-
-    #conn.commit()
-
-    #conn.close()
 
 def extrai_dados_veiculo(database):
     chamado = TabelaVeiculo(database)
@@ -84,8 +41,8 @@ def formatar_veiculos(database):
             dadosBase_b.append(aux[1])
     return tabelaRetorno
 
-def filtrar_veiculos(modelo, marca, cor):
-    dadosBase = formatar_veiculos()
+def filtrar_veiculos(database, modelo, marca, cor):
+    dadosBase = formatar_veiculos(database)
     if modelo == None or modelo == '':
         pass
     else:

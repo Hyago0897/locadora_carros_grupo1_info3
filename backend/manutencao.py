@@ -1,23 +1,6 @@
-#Classes:
-
-#class Conecta():
-#    def __init__(self, data_base):
-#        try:
-#            self.conn = sqlite3.connect(data_base)
-#            self.cursor = self.conn.cursor()
-#        except:
-#            print('Erro ao se conectar com o banco de dados')
-#    def commit_db(self):
-#        if self.conn:
-#            self.conn.commit()
-#    def close_db(self):
-#        if self.conn:
-#            self.conn.close()
-
 class TabelaManutencao():
     def __init__(self, database):
         self.db = database
-        self.tabela
     def consulta_dados(self):
         retorno = []
         result = self.db.exe("""
@@ -26,8 +9,6 @@ class TabelaManutencao():
         for registro in result.fetchall():
             retorno.append(registro)
         return retorno
-    #def desconectar(self):
-    #    self.db.close_db()
 
 def filtrar_modelos(database):
     chamado = TabelaManutencao(database)
@@ -50,25 +31,6 @@ def filtrar_modelos(database):
         modelos.append(i[1])
 
     return modelos
-
-#def inserir_manutencao(modelo, custo_mm, descricao):
-#    modelo = str(modelo)
-#    custo_mm = str(custo_mm)
-#    descricao = str(descricao)
-
-#    conn = sqlite3.connect('bancoBagunca.db')
-
-#    cursor = conn.cursor()
-
-    # inserindo dados na tabela
-#    cursor.execute("""
-#    INSERT INTO manutencao
-#    VALUES (?,?,?);
-#    """, (modelo, custo_mm, descricao))
-
-#    conn.commit()
-
-#    conn.close()
 
 def extrai_dados_manutencao(database):
     chamado = TabelaManutencao(database)
