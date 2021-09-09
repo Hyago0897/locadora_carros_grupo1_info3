@@ -9,7 +9,6 @@ from .frameContrato import ContratoFrame
 from .frameManutencao import ManutencaoFrame
 
 
-
 class TelaPrincipalAdmin(tk.Frame):
     def __init__(self, master, banco):
         tk.Frame.__init__(self, master)
@@ -67,7 +66,7 @@ class TelaPrincipalAdmin(tk.Frame):
         pass
 
     def renomear(self, login):
-        novo = self.banco.cursor.execute(
+        novo = self.banco.exe(
             "SELECT nome FROM admin WHERE login=" + repr(login)).fetchone()[0]
         self.nomeAdm.configure(text="Admin: " + str(novo))
 
