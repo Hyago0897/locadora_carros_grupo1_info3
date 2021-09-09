@@ -3,8 +3,6 @@ import re
 import tkinter as tk
 import tkinter.ttk as ttk
 
-from .preferencias import TelaPreferencias
-
 
 class TelaPrincipalAdmin(tk.Frame):
     def __init__(self, master):
@@ -18,7 +16,7 @@ class TelaPrincipalAdmin(tk.Frame):
         self.menu = tk.Menu(self.container1, borderwidth=1)
         self.prog = tk.Menu(self.menu, tearoff=0)
         self.prog.add_command(label="Preferências", command=self.pref)
-        self.prog.add_command(label="Fechar", command=self.fechar)
+        self.prog.add_command(label="Fechar", command=lambda x: print("12"))
         self.menu.add_cascade(label="Programa", menu=self.prog)
 
         master.config(menu=self.menu)
@@ -41,15 +39,12 @@ class TelaPrincipalAdmin(tk.Frame):
         self.abas.add(self.painel_contrato, text="CONTRATOS")
         self.abas.add(self.painel_manutencao, text="MANUTENÇÕES")
 
-        tk.Label(self.container1,
-                 text="Admin: Fulano da Silva",
-                 font="Default 10").pack(side="left",
-                                         fill="both",
-                                         padx=3,
-                                         pady=3)
+        self.nomeAdm = tk.Label(self.container1,
+                                text="Admin: ",
+                                font="Default 10")
+        self.nomeAdm.pack(side="left", fill="both", padx=3, pady=3)
 
-        tk.Button(self.container1, text="Logout",
-                  command=self.fechar).pack(side="right",
+        tk.Button(self.container1, text="Logout").pack(side="right",
                                             fill="both",
                                             padx=3,
                                             pady=3)
@@ -63,18 +58,11 @@ class TelaPrincipalAdmin(tk.Frame):
         # Manutenções
         self.manutencao = ManutencaoFrame(self.painel_manutencao)
 
-    def fechar(self):
-        self.master.destroy()
-
     def pref(self):
-        top = tk.Toplevel(self.master)
-        tela = TelaPreferencias(top)
-        tela.wait_window()
-        return tela.prefs
+        pass
 
-    def retbutton(self):
-        print(self.master.geometry())
-        return 3
+    def renomear(self, novo):
+        self.nomeAdm.configure(text="Admin: " + str(novo))
 
 
 class VeiculoFrame(tk.Frame):

@@ -22,30 +22,54 @@ class App():
         self.master.withdraw()
         self.banco = BancoDeDados(banco)
         self.banco.exe_sql_file("backend/locadora.sql")
-        self.usuario, tipo = self.login()
-        if self.usuario == '':
-            self.fechar()
 
-        if tipo == "adm":
-            self.telaprincipal = self.top(TelaPrincipalAdmin)
-        else:
-            self.telaprincipal = self.top(TelaPrincipalCliente)
+        self.topLogin = tk.Toplevel(self.master)
+        self.topTPAdmin = tk.Toplevel(self.master)
+        self.topTPCliente = tk.Toplevel(self.master)
+        self.topPref = tk.Toplevel(self.topTPAdmin)
+        self.topFiltro = tk.Toplevel(self.topTPCliente)
+        self.topBk = tk.Toplevel(self.topPref)
 
-    def top(self, tela, **kwargs):
-        tp = tk.Toplevel(self.master)
-        t = tela(tp, **kwargs)
-        t.bind("<Escape>", self.fechar)
-        return t
+        self.topTPAdmin.withdraw()
+        self.topTPCliente.withdraw()
+        self.topPref.withdraw()
+        self.topFiltro.withdraw()
+        self.topBk.withdraw()
 
-    def login(self):
-        top = tk.Toplevel(self.master)
-        tela = TelaLogin(top, self.banco)
-        tela.bind("<Escape>", self.fechar)
-        tela.wait_window()
-        return tela.user
+        self.topTPAdmin.protocol("WM_DELETE_WINDOW", self.fechar)
+        self.topTPCliente.protocol("WM_DELETE_WINDOW", self.fechar)
+        self.topLogin.protocol("WM_DELETE_WINDOW", self.fechar)
 
-    def preferencias(self):
-        print("Acessando preferencias")
+        self.topPref.protocol("WM_DELETE_WINDOW", self.fechar_pref)
+
+        self.admin = TelaPrincipalAdmin(self.topTPAdmin)
+        self.admin.prog.entryconfigure(0, command=self.abrir_pref)
+        self.admin.prog.entryconfigure(1, command=self.fechar)
+
+        self.cliente = TelaPrincipalCliente(self.topTPCliente)
+        self.pref = TelaPreferencias(self.topPref, PREFERENCIAS)
+        self.filtro = TelaFiltrar(self.topFiltro)
+        self.bk = TelaDiretoriosBackup(self.topBk)
+        self.login = TelaLogin(self.topLogin, self.banco)
+
+        self.login.btnLogin.configure(command=self.logar)
+
+    def logar(self):
+        usuario = self.login.logar_usuario()
+        if usuario:
+            self.topLogin.withdraw()
+            self.login.limpar_campos()
+            if usuario[1] == "admin":
+                self.topTPAdmin.deiconify()
+                self.admin.renomear(usuario[0])
+
+    def abrir_pref(self):
+        self.topPref.deiconify()
+        self.topPref.grab_set()
+
+    def fechar_pref(self):
+        self.topPref.grab_release()
+        self.topPref.withdraw()
 
     def fechar(self):
         self.master.destroy()
