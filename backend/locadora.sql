@@ -1,12 +1,12 @@
-CREATE TABLE IF NOT EXISTS clientes (
+CREATE TABLE IF NOT EXISTS cliente (
 	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	nome TEXT NOT NULL,
 	cpf TEXT(11) NOT NULL,
+	login TEXT NOT NULL UNIQUE,
+	senha TEXT NOT NULL,	
+	email TEXT,
 	endereco TEXT NOT NULL,
 	fone TEXT NOT NULL,
-	email TEXT,
-	login TEXT NOT NULL UNIQUE,
-	senha TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS manutencao (
@@ -21,9 +21,9 @@ CREATE TABLE IF NOT EXISTS veiculo (
 	marca TEXT NOT NULL,
 	modelo TEXT NOT NULL,
 	cor TEXT,
-	descricao TEXT,
 	ano TEXT,
 	status TEXT NOT NULL,
+	descricao TEXT,
 	FOREIGN key (modelo) REFERENCES manutencao(modelo)
 );
 

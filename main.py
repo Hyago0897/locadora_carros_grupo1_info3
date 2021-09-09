@@ -1,8 +1,8 @@
+import os
 import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter import messagebox
 from tkinter.simpledialog import askstring
-import os
 
 from backend import BancoDeDados
 from interfaces import (TelaDiretoriosBackup, TelaFiltrar, TelaLogin,
@@ -79,13 +79,11 @@ class App():
         self.filtro.btnOk.configure(command=self.filtroOk)
 
     def verifica_admin(self):
-        if not len(
-                self.banco.cursor.execute(
-                    "SELECT login FROM admin").fetchall()):
+        quant_adms = len(self.banco.exe("SELECT * FROM ADMIN").fetchall())
+        if not quant_adms:
             if messagebox.askyesno(
                     title="Criar admin",
-                    message="Nenhum admin foi encontrado, deseja criar um novo?"
-            ):
+                    message="Nenhum admin foi encontrado, deseja criar?"):
                 while True:
                     nome = askstring("Dados admin", "Nome do admin:")
                     login = askstring("Dados admin", "Login do admin:")
@@ -94,8 +92,7 @@ class App():
                                       show='*')
 
                     if nome and login and senha:
-                        self.banco.cursor.execute(
-                            f"""INSERT INTO ADMIN(login, senha,nome)
+                        self.banco.exe(f"""INSERT INTO ADMIN(login, senha,nome)
                             VALUES ('{login}','{senha}','{nome}');""")
                         break
                     else:

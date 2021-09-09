@@ -3,10 +3,13 @@ import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter import messagebox
 
+from datetime import date
+
 
 class VeiculoFrame(tk.Frame):
     def __init__(self, master, banco):
         tk.Frame.__init__(self, master)
+        self.master = master
         self.banco = banco
         self.container1 = tk.Frame(self.master, bd=5)
 
@@ -55,7 +58,8 @@ class VeiculoFrame(tk.Frame):
                                                        sticky="e",
                                                        padx=2,
                                                        pady=2)
-        self.modelo = ttk.Combobox(self.container3, width=19)
+        self.modelo = ttk.Combobox(self.container3, width=19, state="readonly")
+
         self.modelo.grid(row=3, column=1, sticky="w", padx=2, pady=2)
 
         tk.Label(self.container3, text="COR:").grid(row=4,
@@ -71,7 +75,9 @@ class VeiculoFrame(tk.Frame):
                                                     sticky="e",
                                                     padx=2,
                                                     pady=2)
-        self.ano = tk.Entry(self.container3)
+        self.ano = ttk.Spinbox(
+            self.container3, from_=1980, to=date.today().year, width=18, state="readonly")
+        self.ano.set('')
         self.ano.grid(row=5, column=1, sticky="w", padx=2, pady=2)
 
         tk.Label(self.container3, text="STATUS:").grid(row=6,
@@ -96,14 +102,14 @@ class VeiculoFrame(tk.Frame):
                                      text="INSERIR",
                                      padx=5,
                                      pady=10,
-                                     command=self.inserir)
+                                     command=self.inserir_veiculo)
         self.btn_inserir.pack(side="left", expand=1, fill="x")
 
         self.btn_pesquisar = tk.Button(self.container4,
                                        text="PESQUISAR",
                                        padx=5,
                                        pady=10,
-                                       command=self.pesquisar)
+                                       command=self.pesquisar_veiculo)
         self.btn_pesquisar.pack(side="left", expand=1, fill="x")
 
         # VISUALIZAR REGISTROS
@@ -133,7 +139,7 @@ class VeiculoFrame(tk.Frame):
             text="DELETAR",
             padx=5,
             pady=10,
-            command=self.deletar
+            command=self.deletar_veiculo
         )
         self.btn_deletar.pack(side="left", expand=1, fill="x")
         self.btn_editar = tk.Button(
@@ -141,30 +147,11 @@ class VeiculoFrame(tk.Frame):
             text="EDITAR",
             padx=5,
             pady=10,
-            command=self.editar
+            command=self.editar_veiculo
         )
         self.btn_editar.pack(side="left", expand=1, fill="x")
 
-    def limpar_campos(self):
-        self.id.delete(0, tk.END)
-        self.placa.delete(0, tk.END)
-        self.marca.delete(0, tk.END)
-        self.modelo.delete(0, tk.END)
-        self.cor.delete(0, tk.END)
-        self.ano.delete(0, tk.END)
-        self.status.delete(0, tk.END)
-        self.descricao.delete(0, tk.END)
-
-    def get_dados(self):
-        return {
-            "placa": self.placa.get().strip(),
-            "marca": self.marca.get().strip(),
-            "modelo": self.modelo.get().strip(),
-            "cor": self.cor.get().strip(),
-            "ano": self.ano.get().strip(),
-            "status": self.status.get().strip(),
-            "descricao": self.descricao.get("1.0", "end-1c").strip()
-        }
+        self.atualizar_veiculo()
 
     def valida_dados(self):
         self.obrigatorios = [
@@ -175,28 +162,70 @@ class VeiculoFrame(tk.Frame):
             self.ano.get().strip()
         ]
         if all([bool(x)for x in self.obrigatorios]):
-            if len(self.placa.get()) == 7:
-                dic = {}
-                return True
+            placa = self.placa.get()
+            if len(placa) == 7:
+                placas = self.banco.exe("SELECT placa FROM VEICULO")
+                placas = [x[0] for x in placas]
+                if placa not in placas or placa == self.editplaca:
+                    return True
+                else:
+                    messagebox.showwarning(
+                        "Aviso", f"A placa '{placa}' já foi cadastrada!")
+                    return False
             else:
                 return False
 
+    def lista_modelos(self):
+        modelos = self.banco.exe("SELECT modelo FROM MANUTENCAO").fetchall()
+        modelos = [x[0] for x in modelos]
+        self.modelo.configure(values=modelos)
+
+    def limpar_campos(self):
+        self.id["state"] = "normal"
+        self.id.delete(0, tk.END)
+        self.id["state"] = "readonly"
+
+        self.placa.delete(0, tk.END)
+        self.marca.delete(0, tk.END)
+        self.modelo.set('')
+        self.cor.delete(0, tk.END)
+
+        self.ano.set('')
+
+        self.status["state"] = "normal"
+        self.status.delete(0, tk.END)
+        self.status["state"] = "readonly"
+
+        self.descricao.delete("1.0", "end-1c")
+
+    def get_dados(self):
+        return {
+            "id": self.id.get().strip(),
+            "placa": self.placa.get().strip(),
+            "marca": self.marca.get().strip(),
+            "modelo": self.modelo.get().strip(),
+            "cor": self.cor.get().strip(),
+            "ano": self.ano.get().strip(),
+            "status": self.status.get().strip(),
+            "descricao": self.descricao.get("1.0", "end-1c").strip()
+        }
+
     def consulta_dados(self, delimitadores={}):
-        pesquisa = "SELECT * FROM VEICULOS"
+        pesquisa = """SELECT id, placa, marca, 
+                      modelo, cor, ano, status,
+                      descricao FROM VEICULO """
         if delimitadores:
             pesquisa += " WHERE "
             parcelas = []
             for key, value in delimitadores.items():
                 parcelas.append(f"{key} like '%{value}%'")
             pesquisa += " AND ".join(parcelas)
-
-        # print(pesquisa)
-        consulta = self.db.cursor.execute(pesquisa+";")
+        consulta = self.banco.exe(pesquisa+";")
         return consulta.fetchall()
 
     def update(self, novos_dados):
         comando = f"""
-        UPDATE VEICULOS SET 
+        UPDATE VEICULO SET 
         placa='{novos_dados['placa']}',
         marca='{novos_dados['marca']}',
         modelo='{novos_dados['modelo']}',
@@ -204,35 +233,40 @@ class VeiculoFrame(tk.Frame):
         ano='{novos_dados['ano']}',
         descricao='{novos_dados['descricao']}'
         WHERE id={novos_dados['id']};"""
-        self.db.cursor.execute(comando)
-        self.db.commit()
+        self.banco.exe(comando)
 
     def insert(self, dados):
-        if self.valida_dados():
-            sql = f"""
-            INSERT INTO 
-            VEICULO({','.join(dados.keys())})
-            VALUES ('{','.join(dados.values())}')
-            """
-            self.banco.cursor.execute(sql)
-            self.banco.cursor.commit()
+        sql = f"""
+        INSERT INTO 
+        VEICULO({','.join(dados.keys())})
+        VALUES ('{"','".join(dados.values())}')
+        """
+        self.banco.exe(sql)
 
     def delete(self, id):
         sql = f"DELETE FROM VEICULO WHERE id={id}"
-        self.banco.cursor.execute(sql)
-        self.banco.cursor.commit()
+        self.banco.exe(sql)
 
-    def inserir(self):
+    def inserir_veiculo(self):
         if self.valida_dados():
             dados = self.get_dados()
+            del dados['id']
             dados['status'] = "Disponível"
             self.insert(dados)
-            messagebox.showinfo(title="Sucesso", text="Registro incluído!")
+            messagebox.showinfo(title="Sucesso", message="Registro incluído!")
+            self.limpar_campos()
+            self.atualizar_veiculo()
         else:
             messagebox.showinfo(
                 title="Aviso", message="Preencha todos os campos obrigatórios (placa, marca, modelo, cor, ano)")
 
-    def editar(self):
+    def pesquisar_veiculo(self):
+        dados = self.get_dados()
+        resultado = self.consulta_dados(dados)
+        self.listar_veiculos(resultado)
+        self.limpar_campos()
+
+    def editar_veiculo(self):
         index = self.lista_veiculos.curselection()
         if index:
             dados = self.lista_veiculos.get(index, index)[0].split("|")
@@ -245,17 +279,26 @@ class VeiculoFrame(tk.Frame):
             self.id["state"] = "readonly"
 
             self.placa.insert(0, dados[1])
+            self.editplaca = dados[1]
             self.marca.insert(0, dados[2])
-            self.modelo.insert(0, dados[3])
+
+            self.modelo.set(dados[3])
+
             self.cor.insert(0, dados[4])
-            self.ano.insert(0, dados[5])
+            self.ano.set(dados[5])
+
+            self.status["state"] = "normal"
             self.status.insert(0, dados[6])
-            self.descricao.insert(0, dados[7])
+            self.status["state"] = "readonly"
+
+            self.descricao.insert("1.0", dados[7])
 
             self.btn_inserir['text'] = "SALVAR"
             self.btn_inserir['command'] = self.salvar
             self.btn_pesquisar['text'] = "CANCELAR"
             self.btn_pesquisar['command'] = self.cancelar
+            self.btn_deletar.configure(state="disabled")
+            self.btn_editar.configure(state="disabled")
 
             self.lista_veiculos.select_clear(0, tk.END)
             self.lista_veiculos.select_set(0)
@@ -263,70 +306,45 @@ class VeiculoFrame(tk.Frame):
             messagebox.showinfo(title="Informação",
                                 message="Nenhum usuário foi selecionado")
 
+    def deletar_veiculo(self):
+        index = self.lista_veiculos.curselection()
+        if index:
+            id = self.lista_veiculos.get(index, index)[0].split("|")[0]
+            self.delete(id)
+
+            self.lista_veiculos.delete(index)
+            self.lista_veiculos.select_clear(0, tk.END)
+            self.lista_veiculos.select_set(0)
+        else:
+            messagebox.showinfo(title="Informação",
+                                message="Nenhum usuário foi selecionado")
+
     def cancelar(self):
+        self.btn_deletar.configure(state="normal")
+        self.btn_editar.configure(state="normal")
         self.btn_inserir['text'] = "INSERIR"
         self.btn_inserir['command'] = self.inserir_veiculo
         self.btn_pesquisar['text'] = "PESQUISAR"
         self.btn_pesquisar['command'] = self.pesquisar_veiculo
-
+        self.editplaca = ''
         self.limpar_campos()
 
-    def pesquisar(self):
-        pass
-
-    def deletar(self):
-        pass
-
-    def limpar_campos(self):
-        self.id["state"] = "normal"
-        self.id.delete(0, tk.END)
-        self.id["state"] = "readonly"
-
-        self.nome.delete(0, tk.END)
-        self.idade.delete(0, tk.END)
-        self.cpf.delete(0, tk.END)
-        self.email.delete(0, tk.END)
-        self.fone.delete(0, tk.END)
-        self.cidade.delete(0, tk.END)
-        self.uf.delete(0, tk.END)
-
     def salvar(self):
-        if self.verifica_valores():
-            dados = {
-                'id': self.id.get().strip(),
-                'nome': self.nome.get().strip(),
-                'idade': self.idade.get().strip(),
-                'cpf': self.cpf.get().strip(),
-                'email': self.email.get().strip(),
-                'fone': self.fone.get().strip(),
-                'cidade': self.cidade.get().strip(),
-                'uf': self.uf.get().strip()
-            }
-            self.banco.atualizar_dados(dados)
+        if self.valida_dados():
+            dados = self.get_dados()
+            self.update(dados)
             messagebox.showinfo("Sucesso", "Registro atualizado com sucesso!")
             self.cancelar()
-            self.atualizar_clientes()
+            self.atualizar_veiculo()
 
-    def atualizar_clientes(self):
-        resultado = self.banco.consulta_dados()
-        self.listar_clientes(resultado)
+    def atualizar_veiculo(self):
+        self.lista_modelos()
+        resultado = self.consulta_dados()
+        self.listar_veiculos(resultado)
 
-    def listar_clientes(self, clientes):
-        self.lista_clientes.delete(0, tk.END)
-        for cliente in clientes:
-            cliente = [str(x) for x in cliente]
-            self.lista_clientes.insert(tk.END, " | ".join(cliente))
-        self.lista_clientes.select_set(0)
-
-    def deletar_cliente(self):
-        index = self.lista_clientes.curselection()
-        if index:
-            id = self.lista_clientes.get(index, index)[0].split("|")[0]
-            self.banco.deletar_dados(id)
-
-            self.lista_clientes.delete(index)
-            self.lista_clientes.select_clear(0, tk.END)
-            self.lista_clientes.select_set(0)
-        else:
-            messagebox.showinfo(title="Informação",
-                                message="Nenhum usuário foi selecionado")
+    def listar_veiculos(self, veiculos):
+        self.lista_veiculos.delete(0, tk.END)
+        for veiculo in veiculos:
+            veiculo = [str(x) for x in veiculo]
+            self.lista_veiculos.insert(tk.END, " | ".join(veiculo))
+        self.lista_veiculos.select_set(0)
