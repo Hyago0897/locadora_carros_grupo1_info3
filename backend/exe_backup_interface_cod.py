@@ -1,5 +1,4 @@
-import threading, time, schedule
-import tkinter as tk
+import threading
 
 
 class ExeTarefas(threading.Thread):
