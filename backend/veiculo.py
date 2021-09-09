@@ -1,5 +1,3 @@
-import sqlite3
-
 #Classes:
 
 #class Conecta():
