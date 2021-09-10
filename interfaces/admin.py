@@ -61,6 +61,7 @@ class TelaPrincipalAdmin(tk.Frame):
         self.contrato = ContratoFrame(self.painel_contrato, self.banco)
         # Manutenções
         self.manutencao = ManutencaoFrame(self.painel_manutencao, self.banco)
+        self.manutencao.veiculo_lista_modelos = self.veiculo.lista_modelos
 
     def pref(self):
         pass

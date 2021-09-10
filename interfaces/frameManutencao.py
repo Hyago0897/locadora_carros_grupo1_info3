@@ -1,13 +1,15 @@
 import tkinter as tk
 import tkinter.ttk as ttk
-from .funcs import *
 from tkinter import messagebox
+
+from .funcs import valida_valor
 
 
 class ManutencaoFrame(tk.Frame):
     def __init__(self, master, banco):
         tk.Frame.__init__(self, master)
         self.banco = banco
+        self.master = master
         self.container1 = tk.Frame(self.master, bd=5)
 
         self.container2 = tk.Frame(self.master, bd=5)
@@ -92,21 +94,17 @@ class ManutencaoFrame(tk.Frame):
         barraH.pack(side="bottom", fill='both')
 
         self.lista_manutencao.pack(fill='both', expand=1)
-        self.btn_deletar = tk.Button(
-            self.container6,
-            text="DELETAR",
-            padx=5,
-            pady=10,
-            command=self.deletar_manutencao
-        )
+        self.btn_deletar = tk.Button(self.container6,
+                                     text="DELETAR",
+                                     padx=5,
+                                     pady=10,
+                                     command=self.deletar_manutencao)
         self.btn_deletar.pack(side="left", expand=1, fill="x")
-        self.btn_editar = tk.Button(
-            self.container6,
-            text="EDITAR",
-            padx=5,
-            pady=10,
-            command=self.editar_manutencao
-        )
+        self.btn_editar = tk.Button(self.container6,
+                                    text="EDITAR",
+                                    padx=5,
+                                    pady=10,
+                                    command=self.editar_manutencao)
         self.btn_editar.pack(side="left", expand=1, fill="x")
         self.atualizar_manutencao()
 
@@ -115,7 +113,7 @@ class ManutencaoFrame(tk.Frame):
             self.modelo.get().strip(),
             self.custo.get().strip()
         ]
-        if all([bool(x)for x in self.obrigatorios]):
+        if all([bool(x) for x in self.obrigatorios]):
             modelo = self.modelo.get().strip()
             modelos = self.banco.exe(
                 "SELECT modelo FROM manutencao").fetchall()
@@ -149,12 +147,13 @@ class ManutencaoFrame(tk.Frame):
             for key, value in delimitadores.items():
                 parcelas.append(f"{key} like '%{value}%'")
             pesquisa += " AND ".join(parcelas)
-        consulta = self.banco.exe(pesquisa+";")
+        pesquisa += ";"
+        consulta = self.banco.exe(pesquisa)
         return consulta.fetchall()
 
     def update(self, novos_dados):
         comando = f"""
-        UPDATE manutencao SET 
+        UPDATE MANUTENCAO SET
         custo='{novos_dados['custo']}',
         descricao='{novos_dados['descricao']}'
         WHERE modelo='{novos_dados['modelo']}';"""
@@ -169,7 +168,7 @@ class ManutencaoFrame(tk.Frame):
         self.banco.exe(sql)
 
     def delete(self, modelo):
-        sql = f"DELETE FROM MANUTENCAO WHERE modelo={modelo}"
+        sql = f"DELETE FROM MANUTENCAO WHERE modelo='{modelo}';"
         self.banco.exe(sql)
 
     def inserir_manutencao(self):
@@ -179,9 +178,12 @@ class ManutencaoFrame(tk.Frame):
             messagebox.showinfo(title="Sucesso", message="Registro incluído!")
             self.limpar_campos()
             self.atualizar_manutencao()
+            self.veiculo_lista_modelos()
         else:
             messagebox.showinfo(
-                title="Aviso", message="Preencha todos os campos obrigatórios (modelo, cpf, login, senha, endereço)")
+                title="Aviso",
+                message="Preencha todos os campos obrigatórios (modelo, custo)"
+            )
 
     def pesquisar_manutencao(self):
         dados = self.get_dados()
@@ -209,9 +211,9 @@ class ManutencaoFrame(tk.Frame):
             self.btn_pesquisar['command'] = self.cancelar
             self.btn_deletar.configure(state="disabled")
             self.btn_editar.configure(state="disabled")
+            self.modelo.configure(state="readonly")
 
             self.lista_manutencao.select_clear(0, tk.END)
-            self.lista_manutencao.select_set(0)
         else:
             messagebox.showinfo(title="Informação",
                                 message="Nenhum registro foi selecionado")
@@ -219,12 +221,15 @@ class ManutencaoFrame(tk.Frame):
     def deletar_manutencao(self):
         index = self.lista_manutencao.curselection()
         if index:
-            id = self.lista_manutencao.get(index, index)[0].split("|")[0]
-            self.delete(id)
+            modelo = self.lista_manutencao.get(
+                index, index)[0].split("|")[0].strip()
+            self.delete(modelo)
 
             self.lista_manutencao.delete(index)
             self.lista_manutencao.select_clear(0, tk.END)
             self.lista_manutencao.select_set(0)
+            self.atualizar_manutencao()
+            self.veiculo_lista_modelos()
         else:
             messagebox.showinfo(title="Informação",
                                 message="Nenhum registro foi selecionado")
@@ -237,7 +242,9 @@ class ManutencaoFrame(tk.Frame):
         self.btn_pesquisar['text'] = "PESQUISAR"
         self.btn_pesquisar['command'] = self.pesquisar_manutencao
         self.editmodelo = ''
+        self.modelo.configure(state="normal")
         self.limpar_campos()
+        self.atualizar_manutencao()
 
     def salvar(self):
         if self.valida_dados():
@@ -246,14 +253,15 @@ class ManutencaoFrame(tk.Frame):
             messagebox.showinfo("Sucesso", "Registro atualizado com sucesso!")
             self.cancelar()
             self.atualizar_manutencao()
+            self.veiculo_lista_modelos()
 
     def atualizar_manutencao(self):
         resultado = self.consulta_dados()
         self.listar_manutencoes(resultado)
 
-    def listar_manutencoes(self, manutencaos):
+    def listar_manutencoes(self, manutencoes):
         self.lista_manutencao.delete(0, tk.END)
-        for manutencao in manutencaos:
+        for manutencao in manutencoes:
             manutencao = [str(x) for x in manutencao]
             self.lista_manutencao.insert(tk.END, " | ".join(manutencao))
-        self.lista_manutencao.select_set(0)
+        self.lista_manutencao.select_clear(0, tk.END)

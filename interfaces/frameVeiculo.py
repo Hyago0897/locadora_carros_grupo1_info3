@@ -299,7 +299,6 @@ class VeiculoFrame(tk.Frame):
             self.btn_editar.configure(state="disabled")
 
             self.lista_veiculos.select_clear(0, tk.END)
-            self.lista_veiculos.select_set(0)
         else:
             messagebox.showinfo(title="Informação",
                                 message="Nenhum registro foi selecionado")
@@ -307,7 +306,7 @@ class VeiculoFrame(tk.Frame):
     def deletar_veiculo(self):
         index = self.lista_veiculos.curselection()
         if index:
-            id = self.lista_veiculos.get(index, index)[0].split("|")[0]
+            id = self.lista_veiculos.get(index)[0].split("|")[0].strip()
             self.delete(id)
 
             self.lista_veiculos.delete(index)
@@ -345,4 +344,4 @@ class VeiculoFrame(tk.Frame):
         for veiculo in veiculos:
             veiculo = [str(x) for x in veiculo]
             self.lista_veiculos.insert(tk.END, " | ".join(veiculo))
-        self.lista_veiculos.select_set(0)
+        self.lista_veiculos.select_clear(0, tk.END)

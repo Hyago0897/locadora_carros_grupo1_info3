@@ -248,7 +248,7 @@ class ContratoFrame(tk.Frame):
         self.banco.exe(sql)
 
     def delete(self, id):
-        sql = f"DELETE FROM CONTRATO WHERE id={id}"
+        sql = f"DELETE FROM CONTRATO WHERE id={id};"
         self.banco.exe(sql)
 
     def inserir_contrato(self):
@@ -311,7 +311,6 @@ class ContratoFrame(tk.Frame):
             self.btn_editar.configure(state="disabled")
 
             self.lista_contratos.select_clear(0, tk.END)
-            self.lista_contratos.select_set(0)
         else:
             messagebox.showinfo(title="Informação",
                                 message="Nenhum registro foi selecionado")
@@ -319,7 +318,8 @@ class ContratoFrame(tk.Frame):
     def deletar_contrato(self):
         index = self.lista_contratos.curselection()
         if index:
-            id = self.lista_contratos.get(index, index)[0].split("|")[0]
+            id = self.lista_contratos.get(index, index)[
+                0].split("|")[0].strip()
             self.delete(id)
 
             self.lista_contratos.delete(index)
@@ -357,4 +357,4 @@ class ContratoFrame(tk.Frame):
         for contrato in contratos:
             contrato = [str(x) for x in contrato]
             self.lista_contratos.insert(tk.END, " | ".join(contrato))
-        self.lista_contratos.select_set(0)
+        self.lista_contratos.select_clear(0, tk.END)

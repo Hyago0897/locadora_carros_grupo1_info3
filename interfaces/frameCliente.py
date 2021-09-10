@@ -161,7 +161,7 @@ class ClienteFrame(tk.Frame):
         if all([bool(x)for x in self.obrigatorios]):
             login = self.login.get().strip()
             cpf = self.cpf.get().strip()
-            res = self.banco.exe("SELECT login, cpf  FROM cliente").fetchall()
+            res = self.banco.exe("SELECT login, cpf FROM cliente;").fetchall()
             logins = [x[0] for x in res]
             cpfs = [x[1] for x in res]
 
@@ -238,7 +238,7 @@ class ClienteFrame(tk.Frame):
         self.banco.exe(sql)
 
     def delete(self, id):
-        sql = f"DELETE FROM CLIENTE WHERE id={id}"
+        sql = f"DELETE FROM CLIENTE WHERE id={id};"
         self.banco.exe(sql)
 
     def inserir_cliente(self):
@@ -292,7 +292,6 @@ class ClienteFrame(tk.Frame):
             self.btn_editar.configure(state="disabled")
 
             self.lista_clientes.select_clear(0, tk.END)
-            self.lista_clientes.select_set(0)
         else:
             messagebox.showinfo(title="Informação",
                                 message="Nenhum registro foi selecionado")
@@ -300,7 +299,7 @@ class ClienteFrame(tk.Frame):
     def deletar_cliente(self):
         index = self.lista_clientes.curselection()
         if index:
-            id = self.lista_clientes.get(index, index)[0].split("|")[0]
+            id = self.lista_clientes.get(index)[0].split("|")[0].strip()
             self.delete(id)
 
             self.lista_clientes.delete(index)
@@ -338,4 +337,4 @@ class ClienteFrame(tk.Frame):
         for cliente in clientes:
             cliente = [str(x) for x in cliente]
             self.lista_clientes.insert(tk.END, " | ".join(cliente))
-        self.lista_clientes.select_set(0)
+        self.lista_clientes.select_clear(0, tk.END)
